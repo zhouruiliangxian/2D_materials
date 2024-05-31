@@ -1,0 +1,1976 @@
+2024/04/10 20:52:50 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.8.19 (default, Mar 20 2024, 19:58:24) [GCC 11.2.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 0
+    GPU 0,1: NVIDIA RTX A2000 12GB
+    CUDA_HOME: /home/zhouruiliang/.conda/envs/mmseg
+    NVCC: Cuda compilation tools, release 11.6, V11.6.124
+    GCC: gcc (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+    PyTorch: 1.13.1
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2023.1-Product Build 20230303 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.6
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_37,code=compute_37
+  - CuDNN 8.3.2  (built against CUDA 11.5)
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.6, CUDNN_VERSION=8.3.2, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -fabi-version=11 -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_KINETO -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wunused-local-typedefs -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.13.1, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+    TorchVision: 0.14.1
+    OpenCV: 4.9.0
+    MMEngine: 0.10.3
+
+Runtime environment:
+    cudnn_benchmark: True
+    dist_cfg: {'backend': 'nccl'}
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    seed: 0
+    Distributed launcher: pytorch
+    Distributed training: True
+    GPU number: 2
+------------------------------------------------------------
+
+2024/04/10 20:52:50 - mmengine - INFO - Config:
+channels = [
+    48,
+    96,
+    192,
+    384,
+]
+crop_size = (
+    640,
+    640,
+)
+custom_imports = dict(
+    allow_failed_imports=False, imports=[
+        'mmpretrain.models',
+    ])
+data_preprocessor = dict(
+    bgr_to_rgb=True,
+    mean=[
+        123.675,
+        116.28,
+        103.53,
+    ],
+    pad_val=0,
+    seg_pad_val=255,
+    size=(
+        512,
+        1024,
+    ),
+    std=[
+        58.395,
+        57.12,
+        57.375,
+    ],
+    type='SegDataPreProcessor')
+data_root = 'MoS2_data/'
+dataset_type = 'MoSdata'
+default_hooks = dict(
+    checkpoint=dict(
+        by_epoch=False,
+        interval=2500,
+        max_keep_ckpts=1,
+        save_best='mIoU',
+        type='CheckpointHook'),
+    logger=dict(interval=100, log_metric_by_epoch=False, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'),
+    visualization=dict(type='SegVisualizationHook'))
+default_scope = 'mmseg'
+env_cfg = dict(
+    cudnn_benchmark=True,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+img_ratios = [
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5,
+    1.75,
+]
+launcher = 'pytorch'
+log_level = 'INFO'
+log_processor = dict(by_epoch=False)
+model = dict(
+    auxiliary_head=dict(
+        align_corners=False,
+        channels=256,
+        concat_input=False,
+        dropout_ratio=0.1,
+        in_channels=192,
+        in_index=2,
+        loss_decode=dict(
+            loss_weight=0.4, type='CrossEntropyLoss', use_sigmoid=False),
+        norm_cfg=dict(requires_grad=True, type='SyncBN'),
+        num_classes=4,
+        num_convs=1,
+        type='FCNHead'),
+    backbone=dict(
+        features_only=True,
+        model_name='fastvit_t8',
+        out_indices=(
+            0,
+            1,
+            2,
+            3,
+        ),
+        pretrained=True,
+        type='mmpretrain.TIMMBackbone'),
+    data_preprocessor=dict(
+        bgr_to_rgb=True,
+        mean=[
+            123.675,
+            116.28,
+            103.53,
+        ],
+        pad_val=0,
+        seg_pad_val=255,
+        size=(
+            640,
+            640,
+        ),
+        std=[
+            58.395,
+            57.12,
+            57.375,
+        ],
+        type='SegDataPreProcessor'),
+    decode_head=dict(
+        align_corners=False,
+        channels=512,
+        dropout_ratio=0.1,
+        in_channels=[
+            48,
+            96,
+            192,
+            384,
+        ],
+        in_index=[
+            0,
+            1,
+            2,
+            3,
+        ],
+        loss_decode=dict(
+            loss_weight=1.0, type='CrossEntropyLoss', use_sigmoid=False),
+        norm_cfg=dict(requires_grad=True, type='SyncBN'),
+        num_classes=4,
+        pool_scales=(
+            1,
+            2,
+            3,
+            6,
+        ),
+        type='UPerHead'),
+    test_cfg=dict(mode='whole'),
+    train_cfg=dict(),
+    type='EncoderDecoder')
+norm_cfg = dict(requires_grad=True, type='SyncBN')
+optim_wrapper = dict(
+    clip_grad=None,
+    optimizer=dict(lr=0.01, momentum=0.9, type='SGD', weight_decay=0.0005),
+    type='OptimWrapper')
+optimizer = dict(lr=0.01, momentum=0.9, type='SGD', weight_decay=0.0005)
+param_scheduler = [
+    dict(
+        begin=0,
+        by_epoch=False,
+        end=40000,
+        eta_min=0.0001,
+        power=0.9,
+        type='PolyLR'),
+]
+randomness = dict(seed=0)
+resume = False
+test_cfg = dict(type='TestLoop')
+test_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        data_prefix=dict(img_path='img_dir/test', seg_map_path='ann_dir/test'),
+        data_root='MoS2_data/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(keep_ratio=True, scale=(
+                2048,
+                1024,
+            ), type='Resize'),
+            dict(type='LoadAnnotations'),
+            dict(type='PackSegInputs'),
+        ],
+        type='MoSdata'),
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(
+    iou_metrics=[
+        'mIoU',
+        'mDice',
+        'mFscore',
+    ], type='IoUMetric')
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(keep_ratio=True, scale=(
+        2048,
+        1024,
+    ), type='Resize'),
+    dict(type='LoadAnnotations'),
+    dict(type='PackSegInputs'),
+]
+train_cfg = dict(max_iters=20000, type='IterBasedTrainLoop', val_interval=500)
+train_dataloader = dict(
+    batch_size=4,
+    dataset=dict(
+        data_prefix=dict(
+            img_path='img_dir/train', seg_map_path='ann_dir/train'),
+        data_root='MoS2_data/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations'),
+            dict(
+                keep_ratio=True,
+                ratio_range=(
+                    0.5,
+                    2.0,
+                ),
+                scale=(
+                    2048,
+                    1024,
+                ),
+                type='RandomResize'),
+            dict(
+                cat_max_ratio=0.75, crop_size=(
+                    640,
+                    640,
+                ), type='RandomCrop'),
+            dict(prob=0.5, type='RandomFlip'),
+            dict(type='PhotoMetricDistortion'),
+            dict(type='PackSegInputs'),
+        ],
+        type='MoSdata'),
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(shuffle=True, type='InfiniteSampler'))
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(type='LoadAnnotations'),
+    dict(
+        keep_ratio=True,
+        ratio_range=(
+            0.5,
+            2.0,
+        ),
+        scale=(
+            2048,
+            1024,
+        ),
+        type='RandomResize'),
+    dict(cat_max_ratio=0.75, crop_size=(
+        640,
+        640,
+    ), type='RandomCrop'),
+    dict(prob=0.5, type='RandomFlip'),
+    dict(type='PhotoMetricDistortion'),
+    dict(type='PackSegInputs'),
+]
+tta_model = dict(type='SegTTAModel')
+tta_pipeline = [
+    dict(file_client_args=dict(backend='disk'), type='LoadImageFromFile'),
+    dict(
+        transforms=[
+            [
+                dict(keep_ratio=True, scale_factor=0.5, type='Resize'),
+                dict(keep_ratio=True, scale_factor=0.75, type='Resize'),
+                dict(keep_ratio=True, scale_factor=1.0, type='Resize'),
+                dict(keep_ratio=True, scale_factor=1.25, type='Resize'),
+                dict(keep_ratio=True, scale_factor=1.5, type='Resize'),
+                dict(keep_ratio=True, scale_factor=1.75, type='Resize'),
+            ],
+            [
+                dict(direction='horizontal', prob=0.0, type='RandomFlip'),
+                dict(direction='horizontal', prob=1.0, type='RandomFlip'),
+            ],
+            [
+                dict(type='LoadAnnotations'),
+            ],
+            [
+                dict(type='PackSegInputs'),
+            ],
+        ],
+        type='TestTimeAug'),
+]
+val_cfg = dict(type='ValLoop')
+val_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        data_prefix=dict(img_path='img_dir/val', seg_map_path='ann_dir/val'),
+        data_root='MoS2_data/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(keep_ratio=True, scale=(
+                2048,
+                1024,
+            ), type='Resize'),
+            dict(type='LoadAnnotations'),
+            dict(type='PackSegInputs'),
+        ],
+        type='MoSdata'),
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(
+    iou_metrics=[
+        'mIoU',
+        'mDice',
+        'mFscore',
+    ], type='IoUMetric')
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    name='visualizer',
+    type='SegLocalVisualizer',
+    vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+work_dir = './work_head_dirs/fastvit-upernet-ful'
+
+2024/04/10 20:53:01 - mmengine - INFO - backbone out_indices: (0, 1, 2, 3)
+2024/04/10 20:53:01 - mmengine - INFO - backbone out_channels: [48, 96, 192, 384]
+2024/04/10 20:53:01 - mmengine - INFO - backbone out_strides: [4, 8, 16, 32]
+2024/04/10 20:53:01 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SegVisualizationHook               
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SegVisualizationHook               
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SegVisualizationHook               
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+2024/04/10 20:53:02 - mmengine - WARNING - The prefix is not set in metric class IoUMetric.
+Name of parameter - Initialization information
+
+backbone.timm_model.stem_0.conv_kxk.0.conv.weight - torch.Size([48, 3, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_0.conv_kxk.0.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_0.conv_kxk.0.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_0.conv_scale.conv.weight - torch.Size([48, 3, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_0.conv_scale.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_0.conv_scale.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_1.conv_kxk.0.conv.weight - torch.Size([48, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_1.conv_kxk.0.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_1.conv_kxk.0.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_1.conv_scale.conv.weight - torch.Size([48, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_1.conv_scale.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_1.conv_scale.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_2.identity.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_2.identity.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_2.conv_kxk.0.conv.weight - torch.Size([48, 48, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_2.conv_kxk.0.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stem_2.conv_kxk.0.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.norm.identity.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.norm.identity.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.mixer.identity.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.mixer.identity.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([48, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.mixer.conv_scale.conv.weight - torch.Size([48, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.mixer.conv_scale.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.mixer.conv_scale.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.token_mixer.layer_scale.gamma - torch.Size([48, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.mlp.conv.conv.weight - torch.Size([48, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.mlp.conv.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.mlp.conv.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.mlp.fc1.weight - torch.Size([144, 48, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.mlp.fc1.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.mlp.fc2.weight - torch.Size([48, 144, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.mlp.fc2.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.0.layer_scale.gamma - torch.Size([48, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.norm.identity.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.norm.identity.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.mixer.identity.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.mixer.identity.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([48, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.mixer.conv_scale.conv.weight - torch.Size([48, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.mixer.conv_scale.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.mixer.conv_scale.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.token_mixer.layer_scale.gamma - torch.Size([48, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.mlp.conv.conv.weight - torch.Size([48, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.mlp.conv.bn.weight - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.mlp.conv.bn.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.mlp.fc1.weight - torch.Size([144, 48, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.mlp.fc1.bias - torch.Size([144]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.mlp.fc2.weight - torch.Size([48, 144, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.mlp.fc2.bias - torch.Size([48]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_0.blocks.1.layer_scale.gamma - torch.Size([48, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.0.large_conv.conv.weight - torch.Size([96, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.0.large_conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.0.large_conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.0.small_conv.conv.weight - torch.Size([96, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.0.small_conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.0.small_conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.1.identity.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.1.identity.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.1.conv_kxk.0.conv.weight - torch.Size([96, 96, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.1.conv_kxk.0.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.downsample.proj.1.conv_kxk.0.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.norm.identity.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.norm.identity.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.mixer.identity.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.mixer.identity.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([96, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.mixer.conv_scale.conv.weight - torch.Size([96, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.mixer.conv_scale.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.mixer.conv_scale.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.token_mixer.layer_scale.gamma - torch.Size([96, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.mlp.conv.conv.weight - torch.Size([96, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.mlp.conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.mlp.conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.mlp.fc1.weight - torch.Size([288, 96, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.mlp.fc1.bias - torch.Size([288]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.mlp.fc2.weight - torch.Size([96, 288, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.mlp.fc2.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.0.layer_scale.gamma - torch.Size([96, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.norm.identity.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.norm.identity.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.mixer.identity.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.mixer.identity.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([96, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.mixer.conv_scale.conv.weight - torch.Size([96, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.mixer.conv_scale.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.mixer.conv_scale.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.token_mixer.layer_scale.gamma - torch.Size([96, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.mlp.conv.conv.weight - torch.Size([96, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.mlp.conv.bn.weight - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.mlp.conv.bn.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.mlp.fc1.weight - torch.Size([288, 96, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.mlp.fc1.bias - torch.Size([288]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.mlp.fc2.weight - torch.Size([96, 288, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.mlp.fc2.bias - torch.Size([96]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_1.blocks.1.layer_scale.gamma - torch.Size([96, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.0.large_conv.conv.weight - torch.Size([192, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.0.large_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.0.large_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.0.small_conv.conv.weight - torch.Size([192, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.0.small_conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.0.small_conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.1.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.1.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.1.conv_kxk.0.conv.weight - torch.Size([192, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.1.conv_kxk.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.downsample.proj.1.conv_kxk.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.norm.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.norm.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.mixer.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.mixer.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([192, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.mixer.conv_scale.conv.weight - torch.Size([192, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.mixer.conv_scale.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.mixer.conv_scale.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.token_mixer.layer_scale.gamma - torch.Size([192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.mlp.conv.conv.weight - torch.Size([192, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.mlp.conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.mlp.conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.mlp.fc1.weight - torch.Size([576, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.mlp.fc1.bias - torch.Size([576]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.mlp.fc2.weight - torch.Size([192, 576, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.mlp.fc2.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.0.layer_scale.gamma - torch.Size([192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.norm.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.norm.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.mixer.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.mixer.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([192, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.mixer.conv_scale.conv.weight - torch.Size([192, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.mixer.conv_scale.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.mixer.conv_scale.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.token_mixer.layer_scale.gamma - torch.Size([192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.mlp.conv.conv.weight - torch.Size([192, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.mlp.conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.mlp.conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.mlp.fc1.weight - torch.Size([576, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.mlp.fc1.bias - torch.Size([576]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.mlp.fc2.weight - torch.Size([192, 576, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.mlp.fc2.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.1.layer_scale.gamma - torch.Size([192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.norm.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.norm.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.mixer.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.mixer.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([192, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.mixer.conv_scale.conv.weight - torch.Size([192, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.mixer.conv_scale.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.mixer.conv_scale.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.token_mixer.layer_scale.gamma - torch.Size([192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.mlp.conv.conv.weight - torch.Size([192, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.mlp.conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.mlp.conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.mlp.fc1.weight - torch.Size([576, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.mlp.fc1.bias - torch.Size([576]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.mlp.fc2.weight - torch.Size([192, 576, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.mlp.fc2.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.2.layer_scale.gamma - torch.Size([192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.norm.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.norm.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.mixer.identity.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.mixer.identity.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([192, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.mixer.conv_scale.conv.weight - torch.Size([192, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.mixer.conv_scale.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.mixer.conv_scale.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.token_mixer.layer_scale.gamma - torch.Size([192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.mlp.conv.conv.weight - torch.Size([192, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.mlp.conv.bn.weight - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.mlp.conv.bn.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.mlp.fc1.weight - torch.Size([576, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.mlp.fc1.bias - torch.Size([576]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.mlp.fc2.weight - torch.Size([192, 576, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.mlp.fc2.bias - torch.Size([192]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_2.blocks.3.layer_scale.gamma - torch.Size([192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.0.large_conv.conv.weight - torch.Size([384, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.0.large_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.0.large_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.0.small_conv.conv.weight - torch.Size([384, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.0.small_conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.0.small_conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.1.identity.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.1.identity.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.1.conv_kxk.0.conv.weight - torch.Size([384, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.1.conv_kxk.0.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.downsample.proj.1.conv_kxk.0.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.norm.identity.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.norm.identity.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.mixer.identity.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.mixer.identity.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([384, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.mixer.conv_scale.conv.weight - torch.Size([384, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.mixer.conv_scale.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.mixer.conv_scale.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.token_mixer.layer_scale.gamma - torch.Size([384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.mlp.conv.conv.weight - torch.Size([384, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.mlp.conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.mlp.conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.mlp.fc1.weight - torch.Size([1152, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.mlp.fc1.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.mlp.fc2.weight - torch.Size([384, 1152, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.mlp.fc2.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.0.layer_scale.gamma - torch.Size([384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.norm.identity.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.norm.identity.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.mixer.identity.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.mixer.identity.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.mixer.conv_kxk.0.conv.weight - torch.Size([384, 1, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.mixer.conv_kxk.0.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.mixer.conv_kxk.0.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.mixer.conv_scale.conv.weight - torch.Size([384, 1, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.mixer.conv_scale.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.mixer.conv_scale.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.token_mixer.layer_scale.gamma - torch.Size([384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.mlp.conv.conv.weight - torch.Size([384, 1, 7, 7]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.mlp.conv.bn.weight - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.mlp.conv.bn.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.mlp.fc1.weight - torch.Size([1152, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.mlp.fc1.bias - torch.Size([1152]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.mlp.fc2.weight - torch.Size([384, 1152, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.mlp.fc2.bias - torch.Size([384]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+backbone.timm_model.stages_3.blocks.1.layer_scale.gamma - torch.Size([384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.conv_seg.weight - torch.Size([4, 512, 1, 1]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+decode_head.conv_seg.bias - torch.Size([4]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+decode_head.psp_modules.0.1.conv.weight - torch.Size([512, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.0.1.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.0.1.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.1.1.conv.weight - torch.Size([512, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.1.1.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.1.1.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.2.1.conv.weight - torch.Size([512, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.2.1.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.2.1.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.3.1.conv.weight - torch.Size([512, 384, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.3.1.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.psp_modules.3.1.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.bottleneck.conv.weight - torch.Size([512, 2432, 3, 3]): 
+Initialized by user-defined `init_weights` in ConvModule  
+
+decode_head.bottleneck.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.bottleneck.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.0.conv.weight - torch.Size([512, 48, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.0.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.0.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.1.conv.weight - torch.Size([512, 96, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.1.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.1.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.2.conv.weight - torch.Size([512, 192, 1, 1]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.2.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.lateral_convs.2.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.0.conv.weight - torch.Size([512, 512, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.0.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.0.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.1.conv.weight - torch.Size([512, 512, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.1.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.1.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.2.conv.weight - torch.Size([512, 512, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.2.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_convs.2.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_bottleneck.conv.weight - torch.Size([512, 2048, 3, 3]): 
+Initialized by user-defined `init_weights` in ConvModule  
+
+decode_head.fpn_bottleneck.bn.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+decode_head.fpn_bottleneck.bn.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+auxiliary_head.conv_seg.weight - torch.Size([4, 256, 1, 1]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+auxiliary_head.conv_seg.bias - torch.Size([4]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+auxiliary_head.convs.0.conv.weight - torch.Size([256, 192, 3, 3]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+auxiliary_head.convs.0.bn.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+
+auxiliary_head.convs.0.bn.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of EncoderDecoder  
+2024/04/10 20:53:02 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+2024/04/10 20:53:02 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+2024/04/10 20:53:02 - mmengine - INFO - Checkpoints will be saved to /home/zhouruiliang/code/mmsegmentation-main/work_head_dirs/fastvit-upernet-ful.
+2024/04/10 20:53:45 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 20:53:45 - mmengine - INFO - Iter(train) [   27/20000]  lr: 9.9942e-03  eta: 8:51:55  time: 0.9632  data_time: 0.0127  memory: 8703  loss: 1.2410  decode.loss_ce: 0.8559  decode.acc_seg: 77.5965  aux.loss_ce: 0.3852  aux.acc_seg: 46.3055
+2024/04/10 20:54:56 - mmengine - INFO - Iter(train) [  100/20000]  lr: 9.9779e-03  eta: 6:18:32  time: 0.9725  data_time: 0.0134  memory: 7746  loss: 0.9276  decode.loss_ce: 0.6088  decode.acc_seg: 76.8232  aux.loss_ce: 0.3188  aux.acc_seg: 75.7190
+2024/04/10 20:56:34 - mmengine - INFO - Iter(train) [  200/20000]  lr: 9.9557e-03  eta: 5:50:02  time: 0.9787  data_time: 0.0125  memory: 7746  loss: 0.8526  decode.loss_ce: 0.6153  decode.acc_seg: 72.4967  aux.loss_ce: 0.2373  aux.acc_seg: 70.1422
+2024/04/10 20:58:12 - mmengine - INFO - Iter(train) [  300/20000]  lr: 9.9334e-03  eta: 5:39:48  time: 0.9833  data_time: 0.0134  memory: 7746  loss: 0.8751  decode.loss_ce: 0.5997  decode.acc_seg: 89.1478  aux.loss_ce: 0.2754  aux.acc_seg: 74.4725
+2024/04/10 20:59:51 - mmengine - INFO - Iter(train) [  400/20000]  lr: 9.9111e-03  eta: 5:34:06  time: 0.9908  data_time: 0.0135  memory: 7746  loss: 0.8804  decode.loss_ce: 0.6089  decode.acc_seg: 59.7233  aux.loss_ce: 0.2715  aux.acc_seg: 61.0691
+2024/04/10 21:01:30 - mmengine - INFO - Iter(train) [  500/20000]  lr: 9.8888e-03  eta: 5:30:12  time: 0.9891  data_time: 0.0125  memory: 7746  loss: 0.6543  decode.loss_ce: 0.4347  decode.acc_seg: 59.3131  aux.loss_ce: 0.2197  aux.acc_seg: 64.5942
+2024/04/10 21:01:38 - mmengine - INFO - per class results:
+2024/04/10 21:01:38 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 83.66 | 97.02 |  91.1 |  91.1  |   85.87   | 97.02  |
+| monolayer  | 62.02 | 73.41 | 76.56 | 76.56  |   79.98   | 73.41  |
+|  bilayer   | 15.42 | 15.65 | 26.71 | 26.71  |   91.11   | 15.65  |
+| multilayer | 79.28 | 81.89 | 88.44 | 88.44  |   96.13   | 81.89  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 21:01:38 - mmengine - INFO - Iter(val) [8/8]    aAcc: 85.2200  mIoU: 60.0900  mAcc: 66.9900  mDice: 70.7000  mFscore: 70.7000  mPrecision: 88.2700  mRecall: 66.9900  data_time: 0.2174  time: 0.9872
+2024/04/10 21:01:39 - mmengine - INFO - The best checkpoint with 60.0900 mIoU at 500 iter is saved to best_mIoU_iter_500.pth.
+2024/04/10 21:03:17 - mmengine - INFO - Iter(train) [  600/20000]  lr: 9.8665e-03  eta: 5:27:16  time: 0.9878  data_time: 0.0132  memory: 7746  loss: 0.8757  decode.loss_ce: 0.5851  decode.acc_seg: 77.3662  aux.loss_ce: 0.2906  aux.acc_seg: 72.7455
+2024/04/10 21:04:56 - mmengine - INFO - Iter(train) [  700/20000]  lr: 9.8442e-03  eta: 5:24:19  time: 0.9842  data_time: 0.0122  memory: 7746  loss: 0.7245  decode.loss_ce: 0.4731  decode.acc_seg: 76.7063  aux.loss_ce: 0.2514  aux.acc_seg: 63.9670
+2024/04/10 21:06:34 - mmengine - INFO - Iter(train) [  800/20000]  lr: 9.8218e-03  eta: 5:21:46  time: 0.9885  data_time: 0.0141  memory: 7746  loss: 0.7654  decode.loss_ce: 0.4952  decode.acc_seg: 71.2930  aux.loss_ce: 0.2701  aux.acc_seg: 67.5997
+2024/04/10 21:08:13 - mmengine - INFO - Iter(train) [  900/20000]  lr: 9.7995e-03  eta: 5:19:21  time: 0.9865  data_time: 0.0146  memory: 7746  loss: 0.6933  decode.loss_ce: 0.4324  decode.acc_seg: 94.6983  aux.loss_ce: 0.2609  aux.acc_seg: 88.3175
+2024/04/10 21:09:51 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 21:09:51 - mmengine - INFO - Iter(train) [ 1000/20000]  lr: 9.7772e-03  eta: 5:17:03  time: 0.9812  data_time: 0.0130  memory: 7746  loss: 0.7977  decode.loss_ce: 0.4944  decode.acc_seg: 74.4169  aux.loss_ce: 0.3033  aux.acc_seg: 62.9091
+2024/04/10 21:09:53 - mmengine - INFO - per class results:
+2024/04/10 21:09:53 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 88.33 | 92.92 |  93.8 |  93.8  |    94.7   | 92.92  |
+| monolayer  | 67.02 |  88.3 | 80.25 | 80.25  |   73.54   |  88.3  |
+|  bilayer   |  8.45 |  11.0 | 15.59 | 15.59  |   26.73   |  11.0  |
+| multilayer | 81.92 | 83.66 | 90.06 | 90.06  |   97.52   | 83.66  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 21:09:53 - mmengine - INFO - Iter(val) [8/8]    aAcc: 86.6800  mIoU: 61.4300  mAcc: 68.9700  mDice: 69.9300  mFscore: 69.9300  mPrecision: 73.1300  mRecall: 68.9700  data_time: 0.0167  time: 0.2164
+2024/04/10 21:09:53 - mmengine - INFO - The previous best checkpoint /home/zhouruiliang/code/mmsegmentation-main/work_head_dirs/fastvit-upernet-ful/best_mIoU_iter_500.pth is removed
+2024/04/10 21:09:53 - mmengine - INFO - The best checkpoint with 61.4300 mIoU at 1000 iter is saved to best_mIoU_iter_1000.pth.
+2024/04/10 21:11:32 - mmengine - INFO - Iter(train) [ 1100/20000]  lr: 9.7549e-03  eta: 5:15:05  time: 0.9854  data_time: 0.0141  memory: 7746  loss: 0.6871  decode.loss_ce: 0.4421  decode.acc_seg: 87.9352  aux.loss_ce: 0.2450  aux.acc_seg: 83.8065
+2024/04/10 21:13:10 - mmengine - INFO - Iter(train) [ 1200/20000]  lr: 9.7325e-03  eta: 5:13:00  time: 0.9868  data_time: 0.0145  memory: 7746  loss: 0.7515  decode.loss_ce: 0.4717  decode.acc_seg: 82.5179  aux.loss_ce: 0.2798  aux.acc_seg: 65.0938
+2024/04/10 21:14:49 - mmengine - INFO - Iter(train) [ 1300/20000]  lr: 9.7102e-03  eta: 5:10:59  time: 0.9800  data_time: 0.0137  memory: 7746  loss: 0.5862  decode.loss_ce: 0.3826  decode.acc_seg: 88.2845  aux.loss_ce: 0.2036  aux.acc_seg: 87.9621
+2024/04/10 21:16:27 - mmengine - INFO - Iter(train) [ 1400/20000]  lr: 9.6878e-03  eta: 5:09:01  time: 0.9815  data_time: 0.0136  memory: 7746  loss: 0.7471  decode.loss_ce: 0.4925  decode.acc_seg: 91.5620  aux.loss_ce: 0.2547  aux.acc_seg: 93.4918
+2024/04/10 21:18:05 - mmengine - INFO - Iter(train) [ 1500/20000]  lr: 9.6655e-03  eta: 5:07:04  time: 0.9831  data_time: 0.0130  memory: 7746  loss: 0.6755  decode.loss_ce: 0.4480  decode.acc_seg: 93.4141  aux.loss_ce: 0.2276  aux.acc_seg: 82.8071
+2024/04/10 21:18:07 - mmengine - INFO - per class results:
+2024/04/10 21:18:07 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 67.41 | 70.01 | 80.53 | 80.53  |   94.78   | 70.01  |
+| monolayer  | 49.19 | 89.99 | 65.94 | 65.94  |   52.04   | 89.99  |
+|  bilayer   | 20.14 | 33.99 | 33.53 | 33.53  |   33.09   | 33.99  |
+| multilayer | 49.24 | 50.31 | 65.98 | 65.98  |   95.85   | 50.31  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 21:18:07 - mmengine - INFO - Iter(val) [8/8]    aAcc: 71.8100  mIoU: 46.4900  mAcc: 61.0700  mDice: 61.5000  mFscore: 61.5000  mPrecision: 68.9400  mRecall: 61.0700  data_time: 0.0150  time: 0.2160
+2024/04/10 21:19:46 - mmengine - INFO - Iter(train) [ 1600/20000]  lr: 9.6431e-03  eta: 5:05:13  time: 0.9863  data_time: 0.0134  memory: 7746  loss: 0.7292  decode.loss_ce: 0.4853  decode.acc_seg: 68.4761  aux.loss_ce: 0.2439  aux.acc_seg: 74.0569
+2024/04/10 21:21:24 - mmengine - INFO - Iter(train) [ 1700/20000]  lr: 9.6207e-03  eta: 5:03:23  time: 0.9876  data_time: 0.0130  memory: 7746  loss: 0.5533  decode.loss_ce: 0.3518  decode.acc_seg: 93.6283  aux.loss_ce: 0.2015  aux.acc_seg: 88.8140
+2024/04/10 21:23:03 - mmengine - INFO - Iter(train) [ 1800/20000]  lr: 9.5983e-03  eta: 5:01:34  time: 0.9859  data_time: 0.0147  memory: 7746  loss: 0.9183  decode.loss_ce: 0.6206  decode.acc_seg: 79.0269  aux.loss_ce: 0.2977  aux.acc_seg: 51.1005
+2024/04/10 21:24:42 - mmengine - INFO - Iter(train) [ 1900/20000]  lr: 9.5760e-03  eta: 4:59:47  time: 0.9921  data_time: 0.0141  memory: 7746  loss: 0.6416  decode.loss_ce: 0.4022  decode.acc_seg: 77.8832  aux.loss_ce: 0.2394  aux.acc_seg: 76.0745
+2024/04/10 21:26:20 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 21:26:20 - mmengine - INFO - Iter(train) [ 2000/20000]  lr: 9.5536e-03  eta: 4:58:00  time: 0.9869  data_time: 0.0137  memory: 7746  loss: 0.5290  decode.loss_ce: 0.3271  decode.acc_seg: 94.6434  aux.loss_ce: 0.2019  aux.acc_seg: 84.7607
+2024/04/10 21:26:22 - mmengine - INFO - per class results:
+2024/04/10 21:26:22 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 80.78 | 82.97 | 89.37 | 89.37  |   96.83   | 82.97  |
+| monolayer  | 64.77 | 85.34 | 78.62 | 78.62  |   72.88   | 85.34  |
+|  bilayer   | 37.88 | 43.58 | 54.94 | 54.94  |   74.33   | 43.58  |
+| multilayer | 46.13 |  85.3 | 63.14 | 63.14  |   50.12   |  85.3  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 21:26:22 - mmengine - INFO - Iter(val) [8/8]    aAcc: 81.7800  mIoU: 57.3900  mAcc: 74.3000  mDice: 71.5200  mFscore: 71.5200  mPrecision: 73.5400  mRecall: 74.3000  data_time: 0.0156  time: 0.2160
+2024/04/10 21:28:00 - mmengine - INFO - Iter(train) [ 2100/20000]  lr: 9.5312e-03  eta: 4:56:14  time: 0.9888  data_time: 0.0110  memory: 7746  loss: 0.6150  decode.loss_ce: 0.4049  decode.acc_seg: 83.8153  aux.loss_ce: 0.2101  aux.acc_seg: 91.2672
+2024/04/10 21:29:39 - mmengine - INFO - Iter(train) [ 2200/20000]  lr: 9.5088e-03  eta: 4:54:27  time: 0.9833  data_time: 0.0142  memory: 7746  loss: 0.6224  decode.loss_ce: 0.4098  decode.acc_seg: 80.1901  aux.loss_ce: 0.2126  aux.acc_seg: 78.1183
+2024/04/10 21:31:17 - mmengine - INFO - Iter(train) [ 2300/20000]  lr: 9.4864e-03  eta: 4:52:42  time: 0.9847  data_time: 0.0142  memory: 7746  loss: 0.6401  decode.loss_ce: 0.3946  decode.acc_seg: 69.6437  aux.loss_ce: 0.2455  aux.acc_seg: 63.8656
+2024/04/10 21:32:56 - mmengine - INFO - Iter(train) [ 2400/20000]  lr: 9.4640e-03  eta: 4:50:58  time: 0.9833  data_time: 0.0128  memory: 7746  loss: 0.6259  decode.loss_ce: 0.3914  decode.acc_seg: 82.7408  aux.loss_ce: 0.2345  aux.acc_seg: 75.9673
+2024/04/10 21:34:34 - mmengine - INFO - Iter(train) [ 2500/20000]  lr: 9.4416e-03  eta: 4:49:13  time: 0.9852  data_time: 0.0119  memory: 7746  loss: 0.5069  decode.loss_ce: 0.3010  decode.acc_seg: 95.6896  aux.loss_ce: 0.2059  aux.acc_seg: 87.5117
+2024/04/10 21:34:34 - mmengine - INFO - Saving checkpoint at 2500 iterations
+2024/04/10 21:34:37 - mmengine - INFO - per class results:
+2024/04/10 21:34:37 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 81.29 | 86.67 | 89.68 | 89.68  |    92.9   | 86.67  |
+| monolayer  | 61.64 | 74.21 | 76.27 | 76.27  |   78.45   | 74.21  |
+|  bilayer   | 38.03 | 91.82 | 55.11 | 55.11  |   39.36   | 91.82  |
+| multilayer | 62.86 | 70.96 | 77.19 | 77.19  |   84.62   | 70.96  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 21:34:37 - mmengine - INFO - Iter(val) [8/8]    aAcc: 82.2400  mIoU: 60.9500  mAcc: 80.9200  mDice: 74.5600  mFscore: 74.5600  mPrecision: 73.8300  mRecall: 80.9200  data_time: 0.0112  time: 0.2109
+2024/04/10 21:36:15 - mmengine - INFO - Iter(train) [ 2600/20000]  lr: 9.4191e-03  eta: 4:47:29  time: 0.9836  data_time: 0.0140  memory: 7746  loss: 0.7058  decode.loss_ce: 0.4538  decode.acc_seg: 78.1106  aux.loss_ce: 0.2520  aux.acc_seg: 63.8259
+2024/04/10 21:37:54 - mmengine - INFO - Iter(train) [ 2700/20000]  lr: 9.3967e-03  eta: 4:45:45  time: 0.9855  data_time: 0.0129  memory: 7746  loss: 0.5032  decode.loss_ce: 0.3149  decode.acc_seg: 91.0155  aux.loss_ce: 0.1883  aux.acc_seg: 81.4417
+2024/04/10 21:39:32 - mmengine - INFO - Iter(train) [ 2800/20000]  lr: 9.3743e-03  eta: 4:44:01  time: 0.9813  data_time: 0.0125  memory: 7746  loss: 0.4237  decode.loss_ce: 0.2481  decode.acc_seg: 92.8037  aux.loss_ce: 0.1756  aux.acc_seg: 89.8741
+2024/04/10 21:41:11 - mmengine - INFO - Iter(train) [ 2900/20000]  lr: 9.3518e-03  eta: 4:42:19  time: 0.9840  data_time: 0.0123  memory: 7746  loss: 0.6965  decode.loss_ce: 0.4464  decode.acc_seg: 81.7698  aux.loss_ce: 0.2502  aux.acc_seg: 73.8273
+2024/04/10 21:42:49 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 21:42:49 - mmengine - INFO - Iter(train) [ 3000/20000]  lr: 9.3294e-03  eta: 4:40:36  time: 0.9834  data_time: 0.0130  memory: 7746  loss: 0.6509  decode.loss_ce: 0.4390  decode.acc_seg: 95.6854  aux.loss_ce: 0.2119  aux.acc_seg: 90.6073
+2024/04/10 21:42:51 - mmengine - INFO - per class results:
+2024/04/10 21:42:51 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 79.53 | 84.56 |  88.6 |  88.6  |   93.04   | 84.56  |
+| monolayer  | 58.17 |  84.1 | 73.56 | 73.56  |   65.36   |  84.1  |
+|  bilayer   | 40.36 | 52.19 |  57.5 |  57.5  |   64.02   | 52.19  |
+| multilayer | 79.21 | 81.74 |  88.4 |  88.4  |   96.24   | 81.74  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 21:42:51 - mmengine - INFO - Iter(val) [8/8]    aAcc: 82.5300  mIoU: 64.3200  mAcc: 75.6500  mDice: 77.0100  mFscore: 77.0100  mPrecision: 79.6700  mRecall: 75.6500  data_time: 0.0147  time: 0.2141
+2024/04/10 21:42:51 - mmengine - INFO - The previous best checkpoint /home/zhouruiliang/code/mmsegmentation-main/work_head_dirs/fastvit-upernet-ful/best_mIoU_iter_1000.pth is removed
+2024/04/10 21:42:51 - mmengine - INFO - The best checkpoint with 64.3200 mIoU at 3000 iter is saved to best_mIoU_iter_3000.pth.
+2024/04/10 21:44:31 - mmengine - INFO - Iter(train) [ 3100/20000]  lr: 9.3069e-03  eta: 4:39:03  time: 0.9831  data_time: 0.0142  memory: 7746  loss: 0.4636  decode.loss_ce: 0.2775  decode.acc_seg: 68.2365  aux.loss_ce: 0.1861  aux.acc_seg: 65.0541
+2024/04/10 21:46:09 - mmengine - INFO - Iter(train) [ 3200/20000]  lr: 9.2845e-03  eta: 4:37:20  time: 0.9839  data_time: 0.0136  memory: 7746  loss: 0.5011  decode.loss_ce: 0.2956  decode.acc_seg: 55.5841  aux.loss_ce: 0.2055  aux.acc_seg: 46.6631
+2024/04/10 21:47:48 - mmengine - INFO - Iter(train) [ 3300/20000]  lr: 9.2620e-03  eta: 4:35:39  time: 0.9848  data_time: 0.0136  memory: 7746  loss: 0.4854  decode.loss_ce: 0.2979  decode.acc_seg: 87.7294  aux.loss_ce: 0.1876  aux.acc_seg: 71.0222
+2024/04/10 21:49:26 - mmengine - INFO - Iter(train) [ 3400/20000]  lr: 9.2395e-03  eta: 4:33:57  time: 0.9835  data_time: 0.0145  memory: 7746  loss: 0.7968  decode.loss_ce: 0.5480  decode.acc_seg: 73.7094  aux.loss_ce: 0.2488  aux.acc_seg: 63.7151
+2024/04/10 21:51:05 - mmengine - INFO - Iter(train) [ 3500/20000]  lr: 9.2171e-03  eta: 4:32:16  time: 0.9810  data_time: 0.0136  memory: 7747  loss: 0.4692  decode.loss_ce: 0.2844  decode.acc_seg: 97.7471  aux.loss_ce: 0.1848  aux.acc_seg: 92.9479
+2024/04/10 21:51:07 - mmengine - INFO - per class results:
+2024/04/10 21:51:07 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 83.93 | 87.14 | 91.26 | 91.26  |   95.79   | 87.14  |
+| monolayer  | 64.99 | 75.68 | 78.78 | 78.78  |   82.15   | 75.68  |
+|  bilayer   | 14.67 |  33.3 | 25.59 | 25.59  |   20.78   |  33.3  |
+| multilayer | 56.45 |  90.5 | 72.16 | 72.16  |   60.01   |  90.5  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 21:51:07 - mmengine - INFO - Iter(val) [8/8]    aAcc: 81.6100  mIoU: 55.0100  mAcc: 71.6500  mDice: 66.9500  mFscore: 66.9500  mPrecision: 64.6800  mRecall: 71.6500  data_time: 0.0173  time: 0.2178
+2024/04/10 21:52:45 - mmengine - INFO - Iter(train) [ 3600/20000]  lr: 9.1946e-03  eta: 4:30:35  time: 0.9833  data_time: 0.0148  memory: 7746  loss: 0.4213  decode.loss_ce: 0.2397  decode.acc_seg: 96.0464  aux.loss_ce: 0.1816  aux.acc_seg: 90.7865
+2024/04/10 21:54:23 - mmengine - INFO - Iter(train) [ 3700/20000]  lr: 9.1721e-03  eta: 4:28:53  time: 0.9875  data_time: 0.0132  memory: 7746  loss: 0.4712  decode.loss_ce: 0.2724  decode.acc_seg: 76.3942  aux.loss_ce: 0.1988  aux.acc_seg: 70.4075
+2024/04/10 21:56:02 - mmengine - INFO - Iter(train) [ 3800/20000]  lr: 9.1496e-03  eta: 4:27:12  time: 0.9833  data_time: 0.0147  memory: 7746  loss: 0.4319  decode.loss_ce: 0.2758  decode.acc_seg: 78.6545  aux.loss_ce: 0.1562  aux.acc_seg: 84.0790
+2024/04/10 21:57:40 - mmengine - INFO - Iter(train) [ 3900/20000]  lr: 9.1271e-03  eta: 4:25:31  time: 0.9830  data_time: 0.0136  memory: 7746  loss: 0.4894  decode.loss_ce: 0.2949  decode.acc_seg: 85.4460  aux.loss_ce: 0.1945  aux.acc_seg: 77.1757
+2024/04/10 21:59:19 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 21:59:19 - mmengine - INFO - Iter(train) [ 4000/20000]  lr: 9.1046e-03  eta: 4:23:49  time: 0.9856  data_time: 0.0139  memory: 7746  loss: 0.4142  decode.loss_ce: 0.2523  decode.acc_seg: 93.7537  aux.loss_ce: 0.1620  aux.acc_seg: 85.1993
+2024/04/10 21:59:20 - mmengine - INFO - per class results:
+2024/04/10 21:59:20 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background |  86.8 | 93.43 | 92.93 | 92.93  |   92.45   | 93.43  |
+| monolayer  |  66.3 |  73.7 | 79.73 | 79.73  |   86.85   |  73.7  |
+|  bilayer   | 38.32 | 79.19 |  55.4 |  55.4  |   42.61   | 79.19  |
+| multilayer | 83.78 | 85.98 | 91.18 | 91.18  |   97.04   | 85.98  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 21:59:20 - mmengine - INFO - Iter(val) [8/8]    aAcc: 86.7800  mIoU: 68.8000  mAcc: 83.0700  mDice: 79.8100  mFscore: 79.8100  mPrecision: 79.7400  mRecall: 83.0700  data_time: 0.0146  time: 0.2144
+2024/04/10 21:59:21 - mmengine - INFO - The previous best checkpoint /home/zhouruiliang/code/mmsegmentation-main/work_head_dirs/fastvit-upernet-ful/best_mIoU_iter_3000.pth is removed
+2024/04/10 21:59:21 - mmengine - INFO - The best checkpoint with 68.8000 mIoU at 4000 iter is saved to best_mIoU_iter_4000.pth.
+2024/04/10 22:01:01 - mmengine - INFO - Iter(train) [ 4100/20000]  lr: 9.0821e-03  eta: 4:22:16  time: 0.9818  data_time: 0.0132  memory: 7746  loss: 0.2753  decode.loss_ce: 0.1480  decode.acc_seg: 94.4395  aux.loss_ce: 0.1274  aux.acc_seg: 92.0301
+2024/04/10 22:02:39 - mmengine - INFO - Iter(train) [ 4200/20000]  lr: 9.0595e-03  eta: 4:20:35  time: 0.9804  data_time: 0.0137  memory: 7746  loss: 0.5722  decode.loss_ce: 0.3670  decode.acc_seg: 57.1908  aux.loss_ce: 0.2052  aux.acc_seg: 48.8582
+2024/04/10 22:04:18 - mmengine - INFO - Iter(train) [ 4300/20000]  lr: 9.0370e-03  eta: 4:18:54  time: 0.9879  data_time: 0.0138  memory: 7746  loss: 0.5177  decode.loss_ce: 0.3205  decode.acc_seg: 81.7780  aux.loss_ce: 0.1972  aux.acc_seg: 74.4199
+2024/04/10 22:05:56 - mmengine - INFO - Iter(train) [ 4400/20000]  lr: 9.0145e-03  eta: 4:17:13  time: 0.9832  data_time: 0.0144  memory: 7746  loss: 0.4903  decode.loss_ce: 0.3091  decode.acc_seg: 92.5930  aux.loss_ce: 0.1812  aux.acc_seg: 77.2962
+2024/04/10 22:07:35 - mmengine - INFO - Iter(train) [ 4500/20000]  lr: 8.9919e-03  eta: 4:15:32  time: 0.9813  data_time: 0.0136  memory: 7747  loss: 0.3170  decode.loss_ce: 0.1756  decode.acc_seg: 96.4407  aux.loss_ce: 0.1414  aux.acc_seg: 88.8887
+2024/04/10 22:07:36 - mmengine - INFO - per class results:
+2024/04/10 22:07:36 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 84.87 | 93.62 | 91.82 | 91.82  |   90.08   | 93.62  |
+| monolayer  | 59.71 | 67.96 | 74.77 | 74.77  |    83.1   | 67.96  |
+|  bilayer   | 28.95 | 59.99 |  44.9 |  44.9  |   35.87   | 59.99  |
+| multilayer | 85.32 | 87.21 | 92.08 | 92.08  |   97.52   | 87.21  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 22:07:36 - mmengine - INFO - Iter(val) [8/8]    aAcc: 84.4800  mIoU: 64.7100  mAcc: 77.2000  mDice: 75.8900  mFscore: 75.8900  mPrecision: 76.6400  mRecall: 77.2000  data_time: 0.0164  time: 0.2153
+2024/04/10 22:09:15 - mmengine - INFO - Iter(train) [ 4600/20000]  lr: 8.9694e-03  eta: 4:13:52  time: 0.9819  data_time: 0.0134  memory: 7746  loss: 0.3962  decode.loss_ce: 0.2085  decode.acc_seg: 89.6986  aux.loss_ce: 0.1878  aux.acc_seg: 80.8077
+2024/04/10 22:10:53 - mmengine - INFO - Iter(train) [ 4700/20000]  lr: 8.9468e-03  eta: 4:12:11  time: 0.9844  data_time: 0.0139  memory: 7746  loss: 0.4940  decode.loss_ce: 0.3422  decode.acc_seg: 85.9352  aux.loss_ce: 0.1518  aux.acc_seg: 80.2525
+2024/04/10 22:12:32 - mmengine - INFO - Iter(train) [ 4800/20000]  lr: 8.9243e-03  eta: 4:10:31  time: 0.9848  data_time: 0.0144  memory: 7746  loss: 0.4463  decode.loss_ce: 0.2775  decode.acc_seg: 95.0017  aux.loss_ce: 0.1688  aux.acc_seg: 84.3911
+2024/04/10 22:14:10 - mmengine - INFO - Iter(train) [ 4900/20000]  lr: 8.9017e-03  eta: 4:08:50  time: 0.9811  data_time: 0.0121  memory: 7746  loss: 0.3482  decode.loss_ce: 0.1959  decode.acc_seg: 97.8566  aux.loss_ce: 0.1524  aux.acc_seg: 94.5176
+2024/04/10 22:15:48 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 22:15:48 - mmengine - INFO - Iter(train) [ 5000/20000]  lr: 8.8791e-03  eta: 4:07:10  time: 0.9840  data_time: 0.0145  memory: 7746  loss: 0.3929  decode.loss_ce: 0.2274  decode.acc_seg: 70.1265  aux.loss_ce: 0.1655  aux.acc_seg: 69.8340
+2024/04/10 22:15:48 - mmengine - INFO - Saving checkpoint at 5000 iterations
+2024/04/10 22:15:51 - mmengine - INFO - per class results:
+2024/04/10 22:15:51 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 90.61 |  94.7 | 95.07 | 95.07  |   95.45   |  94.7  |
+| monolayer  | 71.75 | 88.46 | 83.55 | 83.55  |   79.15   | 88.46  |
+|  bilayer   | 42.04 | 55.67 | 59.19 | 59.19  |   63.18   | 55.67  |
+| multilayer | 75.54 | 75.76 | 86.07 | 86.07  |   99.62   | 75.76  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 22:15:51 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.3900  mIoU: 69.9800  mAcc: 78.6500  mDice: 80.9700  mFscore: 80.9700  mPrecision: 84.3500  mRecall: 78.6500  data_time: 0.0109  time: 0.2146
+2024/04/10 22:15:51 - mmengine - INFO - The previous best checkpoint /home/zhouruiliang/code/mmsegmentation-main/work_head_dirs/fastvit-upernet-ful/best_mIoU_iter_4000.pth is removed
+2024/04/10 22:15:51 - mmengine - INFO - The best checkpoint with 69.9800 mIoU at 5000 iter is saved to best_mIoU_iter_5000.pth.
+2024/04/10 22:17:31 - mmengine - INFO - Iter(train) [ 5100/20000]  lr: 8.8566e-03  eta: 4:05:34  time: 0.9864  data_time: 0.0137  memory: 7746  loss: 0.6072  decode.loss_ce: 0.3690  decode.acc_seg: 83.7944  aux.loss_ce: 0.2382  aux.acc_seg: 77.1004
+2024/04/10 22:19:09 - mmengine - INFO - Iter(train) [ 5200/20000]  lr: 8.8340e-03  eta: 4:03:54  time: 0.9821  data_time: 0.0141  memory: 7746  loss: 0.4456  decode.loss_ce: 0.2694  decode.acc_seg: 79.4485  aux.loss_ce: 0.1762  aux.acc_seg: 67.8317
+2024/04/10 22:20:48 - mmengine - INFO - Iter(train) [ 5300/20000]  lr: 8.8114e-03  eta: 4:02:14  time: 0.9850  data_time: 0.0142  memory: 7746  loss: 0.3738  decode.loss_ce: 0.2296  decode.acc_seg: 95.6926  aux.loss_ce: 0.1442  aux.acc_seg: 87.6648
+2024/04/10 22:22:26 - mmengine - INFO - Iter(train) [ 5400/20000]  lr: 8.7888e-03  eta: 4:00:34  time: 0.9808  data_time: 0.0137  memory: 7746  loss: 0.4429  decode.loss_ce: 0.2555  decode.acc_seg: 70.5690  aux.loss_ce: 0.1875  aux.acc_seg: 73.1335
+2024/04/10 22:24:05 - mmengine - INFO - Iter(train) [ 5500/20000]  lr: 8.7662e-03  eta: 3:58:54  time: 0.9850  data_time: 0.0142  memory: 7746  loss: 0.6954  decode.loss_ce: 0.4020  decode.acc_seg: 88.9750  aux.loss_ce: 0.2934  aux.acc_seg: 65.0350
+2024/04/10 22:24:06 - mmengine - INFO - per class results:
+2024/04/10 22:24:06 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 85.12 | 89.57 | 91.96 | 91.96  |   94.49   | 89.57  |
+| monolayer  | 64.73 | 79.29 | 78.59 | 78.59  |    77.9   | 79.29  |
+|  bilayer   | 31.28 | 65.01 | 47.66 | 47.66  |   37.62   | 65.01  |
+| multilayer | 83.72 | 85.28 | 91.14 | 91.14  |   97.86   | 85.28  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 22:24:06 - mmengine - INFO - Iter(val) [8/8]    aAcc: 85.1900  mIoU: 66.2100  mAcc: 79.7800  mDice: 77.3400  mFscore: 77.3400  mPrecision: 76.9700  mRecall: 79.7800  data_time: 0.0140  time: 0.2152
+2024/04/10 22:25:45 - mmengine - INFO - Iter(train) [ 5600/20000]  lr: 8.7436e-03  eta: 3:57:14  time: 0.9791  data_time: 0.0133  memory: 7746  loss: 0.4266  decode.loss_ce: 0.2599  decode.acc_seg: 94.4622  aux.loss_ce: 0.1666  aux.acc_seg: 93.8349
+2024/04/10 22:27:23 - mmengine - INFO - Iter(train) [ 5700/20000]  lr: 8.7210e-03  eta: 3:55:34  time: 0.9852  data_time: 0.0139  memory: 7746  loss: 0.4444  decode.loss_ce: 0.2672  decode.acc_seg: 88.2067  aux.loss_ce: 0.1773  aux.acc_seg: 75.7504
+2024/04/10 22:29:01 - mmengine - INFO - Iter(train) [ 5800/20000]  lr: 8.6983e-03  eta: 3:53:53  time: 0.9804  data_time: 0.0127  memory: 7746  loss: 0.5200  decode.loss_ce: 0.3195  decode.acc_seg: 92.2494  aux.loss_ce: 0.2006  aux.acc_seg: 83.5038
+2024/04/10 22:30:40 - mmengine - INFO - Iter(train) [ 5900/20000]  lr: 8.6757e-03  eta: 3:52:14  time: 0.9821  data_time: 0.0127  memory: 7746  loss: 0.3877  decode.loss_ce: 0.2292  decode.acc_seg: 95.0678  aux.loss_ce: 0.1586  aux.acc_seg: 84.6550
+2024/04/10 22:32:18 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 22:32:18 - mmengine - INFO - Iter(train) [ 6000/20000]  lr: 8.6531e-03  eta: 3:50:34  time: 0.9858  data_time: 0.0153  memory: 7746  loss: 0.4121  decode.loss_ce: 0.2627  decode.acc_seg: 91.9881  aux.loss_ce: 0.1494  aux.acc_seg: 84.2228
+2024/04/10 22:32:20 - mmengine - INFO - per class results:
+2024/04/10 22:32:20 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 87.48 | 94.12 | 93.32 | 93.32  |   92.53   | 94.12  |
+| monolayer  | 66.62 |  74.5 | 79.97 | 79.97  |   86.31   |  74.5  |
+|  bilayer   | 30.42 | 63.63 | 46.65 | 46.65  |   36.82   | 63.63  |
+| multilayer |  84.0 | 85.52 |  91.3 |  91.3  |   97.92   | 85.52  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 22:32:20 - mmengine - INFO - Iter(val) [8/8]    aAcc: 86.5700  mIoU: 67.1300  mAcc: 79.4400  mDice: 77.8100  mFscore: 77.8100  mPrecision: 78.4000  mRecall: 79.4400  data_time: 0.0157  time: 0.2151
+2024/04/10 22:33:58 - mmengine - INFO - Iter(train) [ 6100/20000]  lr: 8.6304e-03  eta: 3:48:54  time: 0.9850  data_time: 0.0132  memory: 7746  loss: 0.3042  decode.loss_ce: 0.1649  decode.acc_seg: 98.3592  aux.loss_ce: 0.1393  aux.acc_seg: 66.7836
+2024/04/10 22:35:37 - mmengine - INFO - Iter(train) [ 6200/20000]  lr: 8.6078e-03  eta: 3:47:15  time: 0.9878  data_time: 0.0131  memory: 7746  loss: 0.4466  decode.loss_ce: 0.2706  decode.acc_seg: 93.4617  aux.loss_ce: 0.1760  aux.acc_seg: 85.4067
+2024/04/10 22:37:16 - mmengine - INFO - Iter(train) [ 6300/20000]  lr: 8.5851e-03  eta: 3:45:36  time: 0.9816  data_time: 0.0135  memory: 7746  loss: 0.4676  decode.loss_ce: 0.2938  decode.acc_seg: 95.7865  aux.loss_ce: 0.1738  aux.acc_seg: 92.2655
+2024/04/10 22:38:54 - mmengine - INFO - Iter(train) [ 6400/20000]  lr: 8.5625e-03  eta: 3:43:57  time: 0.9880  data_time: 0.0157  memory: 7746  loss: 0.3243  decode.loss_ce: 0.1905  decode.acc_seg: 92.7434  aux.loss_ce: 0.1339  aux.acc_seg: 84.5967
+2024/04/10 22:40:33 - mmengine - INFO - Iter(train) [ 6500/20000]  lr: 8.5398e-03  eta: 3:42:17  time: 0.9876  data_time: 0.0139  memory: 7746  loss: 0.2555  decode.loss_ce: 0.1511  decode.acc_seg: 96.8768  aux.loss_ce: 0.1044  aux.acc_seg: 94.3782
+2024/04/10 22:40:35 - mmengine - INFO - per class results:
+2024/04/10 22:40:35 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 84.27 | 88.89 | 91.47 | 91.47  |    94.2   | 88.89  |
+| monolayer  | 62.99 |  75.6 |  77.3 |  77.3  |   79.07   |  75.6  |
+|  bilayer   | 29.39 | 53.31 | 45.43 | 45.43  |   39.58   | 53.31  |
+| multilayer | 60.87 | 87.71 | 75.68 | 75.68  |   66.55   | 87.71  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 22:40:35 - mmengine - INFO - Iter(val) [8/8]    aAcc: 83.4100  mIoU: 59.3800  mAcc: 76.3800  mDice: 72.4700  mFscore: 72.4700  mPrecision: 69.8500  mRecall: 76.3800  data_time: 0.0162  time: 0.2161
+2024/04/10 22:42:13 - mmengine - INFO - Iter(train) [ 6600/20000]  lr: 8.5171e-03  eta: 3:40:38  time: 0.9843  data_time: 0.0143  memory: 7746  loss: 0.2973  decode.loss_ce: 0.1693  decode.acc_seg: 90.9113  aux.loss_ce: 0.1280  aux.acc_seg: 83.7731
+2024/04/10 22:43:52 - mmengine - INFO - Iter(train) [ 6700/20000]  lr: 8.4944e-03  eta: 3:38:59  time: 0.9890  data_time: 0.0136  memory: 7746  loss: 0.4412  decode.loss_ce: 0.2801  decode.acc_seg: 70.0849  aux.loss_ce: 0.1611  aux.acc_seg: 55.9920
+2024/04/10 22:45:31 - mmengine - INFO - Iter(train) [ 6800/20000]  lr: 8.4717e-03  eta: 3:37:20  time: 0.9899  data_time: 0.0147  memory: 7747  loss: 0.4462  decode.loss_ce: 0.2698  decode.acc_seg: 94.0319  aux.loss_ce: 0.1763  aux.acc_seg: 85.7264
+2024/04/10 22:47:10 - mmengine - INFO - Iter(train) [ 6900/20000]  lr: 8.4490e-03  eta: 3:35:42  time: 0.9903  data_time: 0.0151  memory: 7746  loss: 0.3045  decode.loss_ce: 0.1700  decode.acc_seg: 96.0101  aux.loss_ce: 0.1345  aux.acc_seg: 95.4446
+2024/04/10 22:48:48 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 22:48:48 - mmengine - INFO - Iter(train) [ 7000/20000]  lr: 8.4263e-03  eta: 3:34:03  time: 0.9903  data_time: 0.0141  memory: 7746  loss: 0.2669  decode.loss_ce: 0.1507  decode.acc_seg: 96.5253  aux.loss_ce: 0.1162  aux.acc_seg: 75.1917
+2024/04/10 22:48:50 - mmengine - INFO - per class results:
+2024/04/10 22:48:50 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 91.25 | 93.66 | 95.43 | 95.43  |   97.26   | 93.66  |
+| monolayer  | 74.39 | 84.35 | 85.32 | 85.32  |   86.31   | 84.35  |
+|  bilayer   | 33.87 | 65.46 |  50.6 |  50.6  |   41.24   | 65.46  |
+| multilayer | 86.52 | 91.67 | 92.77 | 92.77  |   93.89   | 91.67  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 22:48:50 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.5500  mIoU: 71.5100  mAcc: 83.7900  mDice: 81.0300  mFscore: 81.0300  mPrecision: 79.6700  mRecall: 83.7900  data_time: 0.0153  time: 0.2179
+2024/04/10 22:48:50 - mmengine - INFO - The previous best checkpoint /home/zhouruiliang/code/mmsegmentation-main/work_head_dirs/fastvit-upernet-ful/best_mIoU_iter_5000.pth is removed
+2024/04/10 22:48:51 - mmengine - INFO - The best checkpoint with 71.5100 mIoU at 7000 iter is saved to best_mIoU_iter_7000.pth.
+2024/04/10 22:50:31 - mmengine - INFO - Iter(train) [ 7100/20000]  lr: 8.4036e-03  eta: 3:32:27  time: 0.9927  data_time: 0.0137  memory: 7746  loss: 0.3488  decode.loss_ce: 0.2069  decode.acc_seg: 91.1168  aux.loss_ce: 0.1419  aux.acc_seg: 91.9485
+2024/04/10 22:52:09 - mmengine - INFO - Iter(train) [ 7200/20000]  lr: 8.3809e-03  eta: 3:30:48  time: 0.9858  data_time: 0.0139  memory: 7746  loss: 0.4640  decode.loss_ce: 0.2868  decode.acc_seg: 89.3454  aux.loss_ce: 0.1772  aux.acc_seg: 84.7747
+2024/04/10 22:53:48 - mmengine - INFO - Iter(train) [ 7300/20000]  lr: 8.3582e-03  eta: 3:29:09  time: 0.9888  data_time: 0.0145  memory: 7746  loss: 0.3341  decode.loss_ce: 0.1975  decode.acc_seg: 94.0811  aux.loss_ce: 0.1366  aux.acc_seg: 81.0923
+2024/04/10 22:55:26 - mmengine - INFO - Iter(train) [ 7400/20000]  lr: 8.3354e-03  eta: 3:27:29  time: 0.9878  data_time: 0.0139  memory: 7747  loss: 0.3900  decode.loss_ce: 0.2408  decode.acc_seg: 94.1606  aux.loss_ce: 0.1493  aux.acc_seg: 90.3058
+2024/04/10 22:57:05 - mmengine - INFO - Iter(train) [ 7500/20000]  lr: 8.3127e-03  eta: 3:25:50  time: 0.9869  data_time: 0.0156  memory: 7746  loss: 0.3951  decode.loss_ce: 0.2490  decode.acc_seg: 96.0483  aux.loss_ce: 0.1461  aux.acc_seg: 86.7756
+2024/04/10 22:57:05 - mmengine - INFO - Saving checkpoint at 7500 iterations
+2024/04/10 22:57:08 - mmengine - INFO - per class results:
+2024/04/10 22:57:08 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 87.35 |  92.5 | 93.25 | 93.25  |   94.01   |  92.5  |
+| monolayer  | 67.63 | 77.37 | 80.69 | 80.69  |    84.3   | 77.37  |
+|  bilayer   | 28.57 |  40.0 | 44.44 | 44.44  |    50.0   |  40.0  |
+| multilayer | 60.64 | 93.76 |  75.5 |  75.5  |   63.19   | 93.76  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 22:57:08 - mmengine - INFO - Iter(val) [8/8]    aAcc: 85.8700  mIoU: 61.0500  mAcc: 75.9100  mDice: 73.4700  mFscore: 73.4700  mPrecision: 72.8700  mRecall: 75.9100  data_time: 0.0084  time: 0.2104
+2024/04/10 22:58:47 - mmengine - INFO - Iter(train) [ 7600/20000]  lr: 8.2900e-03  eta: 3:24:12  time: 0.9908  data_time: 0.0155  memory: 7746  loss: 0.8878  decode.loss_ce: 0.6170  decode.acc_seg: 94.2875  aux.loss_ce: 0.2708  aux.acc_seg: 87.6199
+2024/04/10 23:00:25 - mmengine - INFO - Iter(train) [ 7700/20000]  lr: 8.2672e-03  eta: 3:22:33  time: 0.9853  data_time: 0.0145  memory: 7746  loss: 0.4310  decode.loss_ce: 0.2480  decode.acc_seg: 94.9125  aux.loss_ce: 0.1830  aux.acc_seg: 75.7010
+2024/04/10 23:02:04 - mmengine - INFO - Iter(train) [ 7800/20000]  lr: 8.2444e-03  eta: 3:20:54  time: 0.9853  data_time: 0.0141  memory: 7746  loss: 0.3923  decode.loss_ce: 0.2427  decode.acc_seg: 94.5288  aux.loss_ce: 0.1496  aux.acc_seg: 88.9543
+2024/04/10 23:03:43 - mmengine - INFO - Iter(train) [ 7900/20000]  lr: 8.2217e-03  eta: 3:19:15  time: 0.9874  data_time: 0.0134  memory: 7746  loss: 0.2976  decode.loss_ce: 0.1561  decode.acc_seg: 88.1718  aux.loss_ce: 0.1415  aux.acc_seg: 70.9852
+2024/04/10 23:05:21 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 23:05:21 - mmengine - INFO - Iter(train) [ 8000/20000]  lr: 8.1989e-03  eta: 3:17:36  time: 0.9884  data_time: 0.0150  memory: 7746  loss: 0.3086  decode.loss_ce: 0.1830  decode.acc_seg: 94.3491  aux.loss_ce: 0.1256  aux.acc_seg: 77.8309
+2024/04/10 23:05:23 - mmengine - INFO - per class results:
+2024/04/10 23:05:23 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 84.45 | 85.99 | 91.57 | 91.57  |   97.93   | 85.99  |
+| monolayer  | 64.76 | 94.87 | 78.61 | 78.61  |   67.11   | 94.87  |
+|  bilayer   | 30.47 | 33.76 |  46.7 |  46.7  |   75.74   | 33.76  |
+| multilayer | 85.34 | 86.91 | 92.09 | 92.09  |   97.92   | 86.91  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 23:05:23 - mmengine - INFO - Iter(val) [8/8]    aAcc: 85.7700  mIoU: 66.2500  mAcc: 75.3800  mDice: 77.2400  mFscore: 77.2400  mPrecision: 84.6700  mRecall: 75.3800  data_time: 0.0152  time: 0.2175
+2024/04/10 23:07:02 - mmengine - INFO - Iter(train) [ 8100/20000]  lr: 8.1761e-03  eta: 3:15:57  time: 0.9904  data_time: 0.0149  memory: 7746  loss: 0.3674  decode.loss_ce: 0.2371  decode.acc_seg: 95.1327  aux.loss_ce: 0.1302  aux.acc_seg: 81.9361
+2024/04/10 23:08:41 - mmengine - INFO - Iter(train) [ 8200/20000]  lr: 8.1533e-03  eta: 3:14:18  time: 0.9848  data_time: 0.0152  memory: 7746  loss: 0.3252  decode.loss_ce: 0.2040  decode.acc_seg: 92.0187  aux.loss_ce: 0.1212  aux.acc_seg: 90.5941
+2024/04/10 23:10:20 - mmengine - INFO - Iter(train) [ 8300/20000]  lr: 8.1305e-03  eta: 3:12:40  time: 0.9893  data_time: 0.0141  memory: 7746  loss: 0.3695  decode.loss_ce: 0.2178  decode.acc_seg: 92.7296  aux.loss_ce: 0.1517  aux.acc_seg: 74.1205
+2024/04/10 23:11:58 - mmengine - INFO - Iter(train) [ 8400/20000]  lr: 8.1077e-03  eta: 3:11:00  time: 0.9858  data_time: 0.0140  memory: 7746  loss: 0.3259  decode.loss_ce: 0.1995  decode.acc_seg: 93.1758  aux.loss_ce: 0.1264  aux.acc_seg: 87.4865
+2024/04/10 23:13:37 - mmengine - INFO - Iter(train) [ 8500/20000]  lr: 8.0849e-03  eta: 3:09:22  time: 0.9927  data_time: 0.0148  memory: 7746  loss: 0.4107  decode.loss_ce: 0.2221  decode.acc_seg: 97.1754  aux.loss_ce: 0.1886  aux.acc_seg: 91.9578
+2024/04/10 23:13:39 - mmengine - INFO - per class results:
+2024/04/10 23:13:39 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 89.74 | 94.06 | 94.59 | 94.59  |   95.14   | 94.06  |
+| monolayer  | 70.28 | 80.26 | 82.55 | 82.55  |   84.97   | 80.26  |
+|  bilayer   | 35.02 | 60.29 | 51.88 | 51.88  |   45.52   | 60.29  |
+| multilayer | 75.08 | 88.23 | 85.76 | 85.76  |   83.44   | 88.23  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 23:13:39 - mmengine - INFO - Iter(val) [8/8]    aAcc: 88.1300  mIoU: 67.5300  mAcc: 80.7100  mDice: 78.7000  mFscore: 78.7000  mPrecision: 77.2700  mRecall: 80.7100  data_time: 0.0150  time: 0.2161
+2024/04/10 23:15:18 - mmengine - INFO - Iter(train) [ 8600/20000]  lr: 8.0621e-03  eta: 3:07:43  time: 0.9862  data_time: 0.0154  memory: 7746  loss: 0.2318  decode.loss_ce: 0.1195  decode.acc_seg: 96.8665  aux.loss_ce: 0.1124  aux.acc_seg: 96.3498
+2024/04/10 23:16:57 - mmengine - INFO - Iter(train) [ 8700/20000]  lr: 8.0393e-03  eta: 3:06:04  time: 0.9873  data_time: 0.0133  memory: 7746  loss: 0.2543  decode.loss_ce: 0.1375  decode.acc_seg: 96.0211  aux.loss_ce: 0.1168  aux.acc_seg: 80.4836
+2024/04/10 23:18:36 - mmengine - INFO - Iter(train) [ 8800/20000]  lr: 8.0164e-03  eta: 3:04:26  time: 0.9933  data_time: 0.0119  memory: 7746  loss: 0.4133  decode.loss_ce: 0.2413  decode.acc_seg: 80.1055  aux.loss_ce: 0.1720  aux.acc_seg: 74.9542
+2024/04/10 23:20:14 - mmengine - INFO - Iter(train) [ 8900/20000]  lr: 7.9936e-03  eta: 3:02:47  time: 0.9867  data_time: 0.0151  memory: 7746  loss: 0.3617  decode.loss_ce: 0.2175  decode.acc_seg: 94.7777  aux.loss_ce: 0.1442  aux.acc_seg: 88.2107
+2024/04/10 23:21:53 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 23:21:53 - mmengine - INFO - Iter(train) [ 9000/20000]  lr: 7.9708e-03  eta: 3:01:08  time: 0.9857  data_time: 0.0129  memory: 7747  loss: 0.3166  decode.loss_ce: 0.1691  decode.acc_seg: 86.9214  aux.loss_ce: 0.1475  aux.acc_seg: 82.2454
+2024/04/10 23:21:55 - mmengine - INFO - per class results:
+2024/04/10 23:21:55 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 78.14 | 79.94 | 87.73 | 87.73  |   97.19   | 79.94  |
+| monolayer  | 57.97 | 81.28 |  73.4 |  73.4  |   66.91   | 81.28  |
+|  bilayer   | 36.13 | 82.44 | 53.08 | 53.08  |   39.14   | 82.44  |
+| multilayer | 83.26 | 86.35 | 90.86 | 90.86  |   95.87   | 86.35  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 23:21:55 - mmengine - INFO - Iter(val) [8/8]    aAcc: 80.9800  mIoU: 63.8800  mAcc: 82.5000  mDice: 76.2700  mFscore: 76.2700  mPrecision: 74.7800  mRecall: 82.5000  data_time: 0.0113  time: 0.2127
+2024/04/10 23:23:34 - mmengine - INFO - Iter(train) [ 9100/20000]  lr: 7.9479e-03  eta: 2:59:29  time: 0.9855  data_time: 0.0123  memory: 7746  loss: 0.2830  decode.loss_ce: 0.1625  decode.acc_seg: 93.4462  aux.loss_ce: 0.1205  aux.acc_seg: 88.1266
+2024/04/10 23:25:12 - mmengine - INFO - Iter(train) [ 9200/20000]  lr: 7.9250e-03  eta: 2:57:50  time: 0.9832  data_time: 0.0131  memory: 7746  loss: 0.3268  decode.loss_ce: 0.1924  decode.acc_seg: 95.5269  aux.loss_ce: 0.1345  aux.acc_seg: 86.1017
+2024/04/10 23:26:51 - mmengine - INFO - Iter(train) [ 9300/20000]  lr: 7.9022e-03  eta: 2:56:11  time: 0.9862  data_time: 0.0126  memory: 7746  loss: 0.4714  decode.loss_ce: 0.2676  decode.acc_seg: 90.8309  aux.loss_ce: 0.2038  aux.acc_seg: 70.3916
+2024/04/10 23:28:30 - mmengine - INFO - Iter(train) [ 9400/20000]  lr: 7.8793e-03  eta: 2:54:33  time: 0.9871  data_time: 0.0132  memory: 7746  loss: 0.4942  decode.loss_ce: 0.2975  decode.acc_seg: 97.1697  aux.loss_ce: 0.1967  aux.acc_seg: 86.1852
+2024/04/10 23:30:08 - mmengine - INFO - Iter(train) [ 9500/20000]  lr: 7.8564e-03  eta: 2:52:53  time: 0.9903  data_time: 0.0146  memory: 7746  loss: 0.3405  decode.loss_ce: 0.2107  decode.acc_seg: 96.0976  aux.loss_ce: 0.1298  aux.acc_seg: 93.5022
+2024/04/10 23:30:10 - mmengine - INFO - per class results:
+2024/04/10 23:30:10 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background |  89.9 |  92.6 | 94.68 | 94.68  |   96.86   |  92.6  |
+| monolayer  | 74.04 | 92.32 | 85.08 | 85.08  |    78.9   | 92.32  |
+|  bilayer   | 54.08 | 61.24 |  70.2 |  70.2  |   82.23   | 61.24  |
+| multilayer | 86.75 | 89.56 | 92.91 | 92.91  |   96.52   | 89.56  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 23:30:10 - mmengine - INFO - Iter(val) [8/8]    aAcc: 90.6500  mIoU: 76.1900  mAcc: 83.9300  mDice: 85.7200  mFscore: 85.7200  mPrecision: 88.6300  mRecall: 83.9300  data_time: 0.0134  time: 0.2140
+2024/04/10 23:30:10 - mmengine - INFO - The previous best checkpoint /home/zhouruiliang/code/mmsegmentation-main/work_head_dirs/fastvit-upernet-ful/best_mIoU_iter_7000.pth is removed
+2024/04/10 23:30:11 - mmengine - INFO - The best checkpoint with 76.1900 mIoU at 9500 iter is saved to best_mIoU_iter_9500.pth.
+2024/04/10 23:31:51 - mmengine - INFO - Iter(train) [ 9600/20000]  lr: 7.8335e-03  eta: 2:51:16  time: 0.9866  data_time: 0.0142  memory: 7746  loss: 0.3717  decode.loss_ce: 0.2295  decode.acc_seg: 78.0542  aux.loss_ce: 0.1422  aux.acc_seg: 88.9979
+2024/04/10 23:33:29 - mmengine - INFO - Iter(train) [ 9700/20000]  lr: 7.8106e-03  eta: 2:49:37  time: 0.9870  data_time: 0.0145  memory: 7746  loss: 0.4066  decode.loss_ce: 0.2492  decode.acc_seg: 97.9007  aux.loss_ce: 0.1573  aux.acc_seg: 96.9505
+2024/04/10 23:35:08 - mmengine - INFO - Iter(train) [ 9800/20000]  lr: 7.7877e-03  eta: 2:47:58  time: 0.9859  data_time: 0.0146  memory: 7746  loss: 0.4330  decode.loss_ce: 0.2634  decode.acc_seg: 93.8156  aux.loss_ce: 0.1696  aux.acc_seg: 79.6890
+2024/04/10 23:36:47 - mmengine - INFO - Iter(train) [ 9900/20000]  lr: 7.7648e-03  eta: 2:46:20  time: 0.9904  data_time: 0.0144  memory: 7746  loss: 0.3341  decode.loss_ce: 0.1810  decode.acc_seg: 95.8424  aux.loss_ce: 0.1530  aux.acc_seg: 81.8155
+2024/04/10 23:38:25 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 23:38:25 - mmengine - INFO - Iter(train) [10000/20000]  lr: 7.7419e-03  eta: 2:44:41  time: 0.9866  data_time: 0.0134  memory: 7746  loss: 0.3726  decode.loss_ce: 0.2342  decode.acc_seg: 97.1686  aux.loss_ce: 0.1384  aux.acc_seg: 83.1320
+2024/04/10 23:38:25 - mmengine - INFO - Saving checkpoint at 10000 iterations
+2024/04/10 23:38:28 - mmengine - INFO - per class results:
+2024/04/10 23:38:28 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 90.81 | 93.13 | 95.19 | 95.19  |   97.33   | 93.13  |
+| monolayer  | 73.76 | 84.64 |  84.9 |  84.9  |   85.16   | 84.64  |
+|  bilayer   | 49.18 | 52.09 | 65.93 | 65.93  |    89.8   | 52.09  |
+| multilayer | 58.66 | 94.83 | 73.95 | 73.95  |    60.6   | 94.83  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 23:38:28 - mmengine - INFO - Iter(val) [8/8]    aAcc: 88.9000  mIoU: 68.1000  mAcc: 81.1700  mDice: 79.9900  mFscore: 79.9900  mPrecision: 83.2200  mRecall: 81.1700  data_time: 0.0099  time: 0.2130
+2024/04/10 23:40:07 - mmengine - INFO - Iter(train) [10100/20000]  lr: 7.7189e-03  eta: 2:43:02  time: 0.9884  data_time: 0.0145  memory: 7746  loss: 0.2702  decode.loss_ce: 0.1671  decode.acc_seg: 94.9133  aux.loss_ce: 0.1032  aux.acc_seg: 85.2553
+2024/04/10 23:41:46 - mmengine - INFO - Iter(train) [10200/20000]  lr: 7.6960e-03  eta: 2:41:23  time: 0.9875  data_time: 0.0142  memory: 7746  loss: 0.3078  decode.loss_ce: 0.1560  decode.acc_seg: 96.4470  aux.loss_ce: 0.1517  aux.acc_seg: 94.6985
+2024/04/10 23:43:25 - mmengine - INFO - Iter(train) [10300/20000]  lr: 7.6731e-03  eta: 2:39:44  time: 0.9865  data_time: 0.0134  memory: 7746  loss: 0.3890  decode.loss_ce: 0.2354  decode.acc_seg: 91.8123  aux.loss_ce: 0.1536  aux.acc_seg: 86.2744
+2024/04/10 23:45:04 - mmengine - INFO - Iter(train) [10400/20000]  lr: 7.6501e-03  eta: 2:38:05  time: 0.9851  data_time: 0.0136  memory: 7746  loss: 0.3622  decode.loss_ce: 0.2016  decode.acc_seg: 93.6119  aux.loss_ce: 0.1607  aux.acc_seg: 84.4846
+2024/04/10 23:46:42 - mmengine - INFO - Iter(train) [10500/20000]  lr: 7.6272e-03  eta: 2:36:27  time: 0.9891  data_time: 0.0144  memory: 7746  loss: 0.2512  decode.loss_ce: 0.1541  decode.acc_seg: 92.9473  aux.loss_ce: 0.0972  aux.acc_seg: 88.1089
+2024/04/10 23:46:44 - mmengine - INFO - per class results:
+2024/04/10 23:46:44 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 91.22 | 93.79 | 95.41 | 95.41  |   97.08   | 93.79  |
+| monolayer  | 77.01 | 83.43 | 87.01 | 87.01  |   90.92   | 83.43  |
+|  bilayer   | 51.88 | 55.59 | 68.32 | 68.32  |    88.6   | 55.59  |
+| multilayer | 53.14 | 94.04 |  69.4 |  69.4  |   54.99   | 94.04  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 23:46:44 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.0800  mIoU: 68.3100  mAcc: 81.7100  mDice: 80.0400  mFscore: 80.0400  mPrecision: 82.9000  mRecall: 81.7100  data_time: 0.0154  time: 0.2170
+2024/04/10 23:48:23 - mmengine - INFO - Iter(train) [10600/20000]  lr: 7.6042e-03  eta: 2:34:48  time: 0.9843  data_time: 0.0132  memory: 7746  loss: 0.3576  decode.loss_ce: 0.2209  decode.acc_seg: 95.1102  aux.loss_ce: 0.1366  aux.acc_seg: 94.9299
+2024/04/10 23:50:02 - mmengine - INFO - Iter(train) [10700/20000]  lr: 7.5812e-03  eta: 2:33:09  time: 0.9896  data_time: 0.0147  memory: 7746  loss: 0.2828  decode.loss_ce: 0.1708  decode.acc_seg: 94.7454  aux.loss_ce: 0.1120  aux.acc_seg: 88.6395
+2024/04/10 23:51:40 - mmengine - INFO - Iter(train) [10800/20000]  lr: 7.5582e-03  eta: 2:31:30  time: 0.9909  data_time: 0.0129  memory: 7746  loss: 0.2565  decode.loss_ce: 0.1435  decode.acc_seg: 95.6536  aux.loss_ce: 0.1130  aux.acc_seg: 91.0336
+2024/04/10 23:53:19 - mmengine - INFO - Iter(train) [10900/20000]  lr: 7.5352e-03  eta: 2:29:51  time: 0.9886  data_time: 0.0139  memory: 7746  loss: 0.2392  decode.loss_ce: 0.1361  decode.acc_seg: 90.7339  aux.loss_ce: 0.1031  aux.acc_seg: 94.9495
+2024/04/10 23:54:58 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/10 23:54:58 - mmengine - INFO - Iter(train) [11000/20000]  lr: 7.5122e-03  eta: 2:28:12  time: 0.9879  data_time: 0.0125  memory: 7746  loss: 0.4505  decode.loss_ce: 0.2808  decode.acc_seg: 96.4291  aux.loss_ce: 0.1697  aux.acc_seg: 95.6598
+2024/04/10 23:55:00 - mmengine - INFO - per class results:
+2024/04/10 23:55:00 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 94.23 |  96.2 | 97.03 | 97.03  |   97.88   |  96.2  |
+| monolayer  | 75.33 | 87.19 | 85.93 | 85.93  |   84.71   | 87.19  |
+|  bilayer   | 40.39 | 56.12 | 57.54 | 57.54  |   59.05   | 56.12  |
+| multilayer | 66.28 | 81.98 | 79.72 | 79.72  |   77.58   | 81.98  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/10 23:55:00 - mmengine - INFO - Iter(val) [8/8]    aAcc: 90.5100  mIoU: 69.0600  mAcc: 80.3700  mDice: 80.0600  mFscore: 80.0600  mPrecision: 79.8000  mRecall: 80.3700  data_time: 0.0129  time: 0.2134
+2024/04/10 23:56:39 - mmengine - INFO - Iter(train) [11100/20000]  lr: 7.4892e-03  eta: 2:26:34  time: 0.9850  data_time: 0.0124  memory: 7746  loss: 0.2328  decode.loss_ce: 0.1230  decode.acc_seg: 95.5136  aux.loss_ce: 0.1098  aux.acc_seg: 93.7097
+2024/04/10 23:58:18 - mmengine - INFO - Iter(train) [11200/20000]  lr: 7.4662e-03  eta: 2:24:55  time: 0.9868  data_time: 0.0143  memory: 7746  loss: 0.2533  decode.loss_ce: 0.1534  decode.acc_seg: 95.9068  aux.loss_ce: 0.0999  aux.acc_seg: 93.0717
+2024/04/10 23:59:56 - mmengine - INFO - Iter(train) [11300/20000]  lr: 7.4432e-03  eta: 2:23:16  time: 0.9891  data_time: 0.0147  memory: 7746  loss: 0.3212  decode.loss_ce: 0.1957  decode.acc_seg: 94.2975  aux.loss_ce: 0.1255  aux.acc_seg: 92.1468
+2024/04/11 00:01:35 - mmengine - INFO - Iter(train) [11400/20000]  lr: 7.4202e-03  eta: 2:21:37  time: 0.9843  data_time: 0.0135  memory: 7746  loss: 0.2797  decode.loss_ce: 0.1439  decode.acc_seg: 93.5720  aux.loss_ce: 0.1358  aux.acc_seg: 88.9962
+2024/04/11 00:03:14 - mmengine - INFO - Iter(train) [11500/20000]  lr: 7.3971e-03  eta: 2:19:59  time: 0.9894  data_time: 0.0150  memory: 7746  loss: 0.2836  decode.loss_ce: 0.1546  decode.acc_seg: 96.8942  aux.loss_ce: 0.1290  aux.acc_seg: 89.0897
+2024/04/11 00:03:16 - mmengine - INFO - per class results:
+2024/04/11 00:03:16 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 92.01 | 94.87 | 95.84 | 95.84  |   96.83   | 94.87  |
+| monolayer  | 75.93 | 89.78 | 86.32 | 86.32  |    83.1   | 89.78  |
+|  bilayer   | 26.61 | 27.13 | 42.04 | 42.04  |   93.29   | 27.13  |
+| multilayer | 63.86 | 90.09 | 77.95 | 77.95  |   68.68   | 90.09  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 00:03:16 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.6200  mIoU: 64.6000  mAcc: 75.4700  mDice: 75.5400  mFscore: 75.5400  mPrecision: 85.4800  mRecall: 75.4700  data_time: 0.0151  time: 0.2173
+2024/04/11 00:04:55 - mmengine - INFO - Iter(train) [11600/20000]  lr: 7.3741e-03  eta: 2:18:20  time: 0.9886  data_time: 0.0153  memory: 7746  loss: 0.2259  decode.loss_ce: 0.1228  decode.acc_seg: 96.0458  aux.loss_ce: 0.1030  aux.acc_seg: 89.9285
+2024/04/11 00:06:34 - mmengine - INFO - Iter(train) [11700/20000]  lr: 7.3510e-03  eta: 2:16:41  time: 0.9889  data_time: 0.0138  memory: 7746  loss: 0.2075  decode.loss_ce: 0.1024  decode.acc_seg: 95.8842  aux.loss_ce: 0.1051  aux.acc_seg: 91.6050
+2024/04/11 00:08:13 - mmengine - INFO - Iter(train) [11800/20000]  lr: 7.3280e-03  eta: 2:15:02  time: 0.9901  data_time: 0.0147  memory: 7746  loss: 0.5118  decode.loss_ce: 0.3125  decode.acc_seg: 89.0889  aux.loss_ce: 0.1993  aux.acc_seg: 82.1570
+2024/04/11 00:09:51 - mmengine - INFO - Iter(train) [11900/20000]  lr: 7.3049e-03  eta: 2:13:23  time: 0.9946  data_time: 0.0146  memory: 7746  loss: 0.4557  decode.loss_ce: 0.2579  decode.acc_seg: 88.3740  aux.loss_ce: 0.1978  aux.acc_seg: 86.1027
+2024/04/11 00:11:30 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 00:11:30 - mmengine - INFO - Iter(train) [12000/20000]  lr: 7.2818e-03  eta: 2:11:45  time: 0.9871  data_time: 0.0142  memory: 7746  loss: 0.3057  decode.loss_ce: 0.1725  decode.acc_seg: 95.1575  aux.loss_ce: 0.1331  aux.acc_seg: 95.3376
+2024/04/11 00:11:32 - mmengine - INFO - per class results:
+2024/04/11 00:11:32 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 92.23 | 94.47 | 95.96 | 95.96  |    97.5   | 94.47  |
+| monolayer  | 74.57 | 93.38 | 85.43 | 85.43  |   78.73   | 93.38  |
+|  bilayer   | 43.74 | 45.76 | 60.86 | 60.86  |   90.85   | 45.76  |
+| multilayer | 84.21 | 88.33 | 91.43 | 91.43  |   94.76   | 88.33  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 00:11:32 - mmengine - INFO - Iter(val) [8/8]    aAcc: 91.1500  mIoU: 73.6900  mAcc: 80.4900  mDice: 83.4200  mFscore: 83.4200  mPrecision: 90.4600  mRecall: 80.4900  data_time: 0.0138  time: 0.2170
+2024/04/11 00:13:11 - mmengine - INFO - Iter(train) [12100/20000]  lr: 7.2587e-03  eta: 2:10:06  time: 0.9870  data_time: 0.0144  memory: 7746  loss: 0.3177  decode.loss_ce: 0.1720  decode.acc_seg: 92.5994  aux.loss_ce: 0.1458  aux.acc_seg: 83.5199
+2024/04/11 00:14:50 - mmengine - INFO - Iter(train) [12200/20000]  lr: 7.2356e-03  eta: 2:08:27  time: 0.9896  data_time: 0.0153  memory: 7746  loss: 0.3162  decode.loss_ce: 0.1890  decode.acc_seg: 87.0219  aux.loss_ce: 0.1272  aux.acc_seg: 92.9175
+2024/04/11 00:16:28 - mmengine - INFO - Iter(train) [12300/20000]  lr: 7.2125e-03  eta: 2:06:48  time: 0.9909  data_time: 0.0146  memory: 7746  loss: 0.2604  decode.loss_ce: 0.1325  decode.acc_seg: 97.0732  aux.loss_ce: 0.1279  aux.acc_seg: 96.0213
+2024/04/11 00:18:07 - mmengine - INFO - Iter(train) [12400/20000]  lr: 7.1894e-03  eta: 2:05:09  time: 0.9891  data_time: 0.0128  memory: 7746  loss: 0.2480  decode.loss_ce: 0.1318  decode.acc_seg: 94.1125  aux.loss_ce: 0.1162  aux.acc_seg: 73.7157
+2024/04/11 00:19:46 - mmengine - INFO - Iter(train) [12500/20000]  lr: 7.1663e-03  eta: 2:03:31  time: 0.9868  data_time: 0.0142  memory: 7746  loss: 0.3455  decode.loss_ce: 0.2050  decode.acc_seg: 97.1011  aux.loss_ce: 0.1405  aux.acc_seg: 94.2094
+2024/04/11 00:19:46 - mmengine - INFO - Saving checkpoint at 12500 iterations
+2024/04/11 00:19:49 - mmengine - INFO - per class results:
+2024/04/11 00:19:49 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 91.71 | 95.01 | 95.68 | 95.68  |   96.35   | 95.01  |
+| monolayer  | 77.04 | 82.86 | 87.03 | 87.03  |   91.65   | 82.86  |
+|  bilayer   | 46.09 | 49.06 |  63.1 |  63.1  |   88.38   | 49.06  |
+| multilayer | 52.03 | 90.95 | 68.45 | 68.45  |   54.87   | 90.95  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 00:19:49 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.0500  mIoU: 66.7200  mAcc: 79.4700  mDice: 78.5600  mFscore: 78.5600  mPrecision: 82.8100  mRecall: 79.4700  data_time: 0.0082  time: 0.2094
+2024/04/11 00:21:27 - mmengine - INFO - Iter(train) [12600/20000]  lr: 7.1431e-03  eta: 2:01:52  time: 0.9881  data_time: 0.0149  memory: 7746  loss: 0.2374  decode.loss_ce: 0.1364  decode.acc_seg: 95.0630  aux.loss_ce: 0.1009  aux.acc_seg: 93.7701
+2024/04/11 00:23:06 - mmengine - INFO - Iter(train) [12700/20000]  lr: 7.1200e-03  eta: 2:00:13  time: 0.9900  data_time: 0.0141  memory: 7746  loss: 0.2660  decode.loss_ce: 0.1581  decode.acc_seg: 85.5201  aux.loss_ce: 0.1079  aux.acc_seg: 79.9736
+2024/04/11 00:24:45 - mmengine - INFO - Iter(train) [12800/20000]  lr: 7.0969e-03  eta: 1:58:34  time: 0.9921  data_time: 0.0154  memory: 7746  loss: 0.4340  decode.loss_ce: 0.2613  decode.acc_seg: 94.4652  aux.loss_ce: 0.1727  aux.acc_seg: 91.6636
+2024/04/11 00:26:24 - mmengine - INFO - Iter(train) [12900/20000]  lr: 7.0737e-03  eta: 1:56:55  time: 0.9923  data_time: 0.0143  memory: 7746  loss: 0.2834  decode.loss_ce: 0.1678  decode.acc_seg: 96.6802  aux.loss_ce: 0.1155  aux.acc_seg: 93.6215
+2024/04/11 00:28:03 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 00:28:03 - mmengine - INFO - Iter(train) [13000/20000]  lr: 7.0505e-03  eta: 1:55:17  time: 0.9869  data_time: 0.0132  memory: 7746  loss: 0.2413  decode.loss_ce: 0.1406  decode.acc_seg: 97.0424  aux.loss_ce: 0.1007  aux.acc_seg: 89.5399
+2024/04/11 00:28:05 - mmengine - INFO - per class results:
+2024/04/11 00:28:05 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 90.51 | 94.54 | 95.02 | 95.02  |    95.5   | 94.54  |
+| monolayer  |  74.2 | 80.38 | 85.19 | 85.19  |    90.6   | 80.38  |
+|  bilayer   | 45.35 | 48.64 | 62.41 | 62.41  |   87.04   | 48.64  |
+| multilayer | 52.31 | 92.07 | 68.69 | 68.69  |   54.78   | 92.07  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 00:28:05 - mmengine - INFO - Iter(val) [8/8]    aAcc: 88.1900  mIoU: 65.5900  mAcc: 78.9100  mDice: 77.8200  mFscore: 77.8200  mPrecision: 81.9800  mRecall: 78.9100  data_time: 0.0145  time: 0.2172
+2024/04/11 00:29:44 - mmengine - INFO - Iter(train) [13100/20000]  lr: 7.0274e-03  eta: 1:53:38  time: 0.9902  data_time: 0.0145  memory: 7746  loss: 0.2358  decode.loss_ce: 0.1273  decode.acc_seg: 97.4258  aux.loss_ce: 0.1086  aux.acc_seg: 96.1757
+2024/04/11 00:31:23 - mmengine - INFO - Iter(train) [13200/20000]  lr: 7.0042e-03  eta: 1:51:59  time: 0.9909  data_time: 0.0143  memory: 7746  loss: 0.2868  decode.loss_ce: 0.1934  decode.acc_seg: 89.7502  aux.loss_ce: 0.0933  aux.acc_seg: 91.4076
+2024/04/11 00:33:01 - mmengine - INFO - Iter(train) [13300/20000]  lr: 6.9810e-03  eta: 1:50:20  time: 0.9879  data_time: 0.0140  memory: 7746  loss: 0.3631  decode.loss_ce: 0.2295  decode.acc_seg: 96.9433  aux.loss_ce: 0.1336  aux.acc_seg: 85.8822
+2024/04/11 00:34:41 - mmengine - INFO - Iter(train) [13400/20000]  lr: 6.9578e-03  eta: 1:48:42  time: 0.9901  data_time: 0.0146  memory: 7746  loss: 0.2382  decode.loss_ce: 0.1386  decode.acc_seg: 96.5448  aux.loss_ce: 0.0996  aux.acc_seg: 82.5775
+2024/04/11 00:36:19 - mmengine - INFO - Iter(train) [13500/20000]  lr: 6.9346e-03  eta: 1:47:03  time: 0.9888  data_time: 0.0129  memory: 7746  loss: 0.2918  decode.loss_ce: 0.1584  decode.acc_seg: 94.5342  aux.loss_ce: 0.1334  aux.acc_seg: 89.8992
+2024/04/11 00:36:21 - mmengine - INFO - per class results:
+2024/04/11 00:36:21 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 92.22 | 94.58 | 95.95 | 95.95  |   97.37   | 94.58  |
+| monolayer  | 75.26 | 85.25 | 85.89 | 85.89  |   86.53   | 85.25  |
+|  bilayer   | 22.34 | 24.15 | 36.52 | 36.52  |   74.86   | 24.15  |
+| multilayer | 52.22 | 90.73 | 68.61 | 68.61  |   55.16   | 90.73  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 00:36:21 - mmengine - INFO - Iter(val) [8/8]    aAcc: 88.1400  mIoU: 60.5100  mAcc: 73.6800  mDice: 71.7400  mFscore: 71.7400  mPrecision: 78.4800  mRecall: 73.6800  data_time: 0.0148  time: 0.2151
+2024/04/11 00:38:00 - mmengine - INFO - Iter(train) [13600/20000]  lr: 6.9114e-03  eta: 1:45:24  time: 0.9895  data_time: 0.0146  memory: 7746  loss: 0.2799  decode.loss_ce: 0.1670  decode.acc_seg: 94.4088  aux.loss_ce: 0.1128  aux.acc_seg: 94.1193
+2024/04/11 00:39:39 - mmengine - INFO - Iter(train) [13700/20000]  lr: 6.8881e-03  eta: 1:43:45  time: 0.9901  data_time: 0.0144  memory: 7746  loss: 0.1816  decode.loss_ce: 0.0940  decode.acc_seg: 95.6925  aux.loss_ce: 0.0876  aux.acc_seg: 88.5718
+2024/04/11 00:41:18 - mmengine - INFO - Iter(train) [13800/20000]  lr: 6.8649e-03  eta: 1:42:07  time: 0.9908  data_time: 0.0131  memory: 7746  loss: 0.2394  decode.loss_ce: 0.1225  decode.acc_seg: 97.7513  aux.loss_ce: 0.1169  aux.acc_seg: 96.7112
+2024/04/11 00:42:57 - mmengine - INFO - Iter(train) [13900/20000]  lr: 6.8417e-03  eta: 1:40:28  time: 0.9929  data_time: 0.0141  memory: 7746  loss: 0.2515  decode.loss_ce: 0.1489  decode.acc_seg: 87.7319  aux.loss_ce: 0.1027  aux.acc_seg: 85.3726
+2024/04/11 00:44:36 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 00:44:36 - mmengine - INFO - Iter(train) [14000/20000]  lr: 6.8184e-03  eta: 1:38:49  time: 0.9864  data_time: 0.0124  memory: 7746  loss: 0.4005  decode.loss_ce: 0.2388  decode.acc_seg: 83.6350  aux.loss_ce: 0.1617  aux.acc_seg: 70.3633
+2024/04/11 00:44:38 - mmengine - INFO - per class results:
+2024/04/11 00:44:38 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 92.79 | 94.93 | 96.26 | 96.26  |   97.63   | 94.93  |
+| monolayer  | 73.56 | 79.17 | 84.77 | 84.77  |   91.23   | 79.17  |
+|  bilayer   | 41.84 | 79.48 | 58.99 | 58.99  |    46.9   | 79.48  |
+| multilayer | 69.13 | 89.39 | 81.75 | 81.75  |   75.31   | 89.39  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 00:44:38 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.4400  mIoU: 69.3300  mAcc: 85.7400  mDice: 80.4400  mFscore: 80.4400  mPrecision: 77.7600  mRecall: 85.7400  data_time: 0.0107  time: 0.2147
+2024/04/11 00:46:17 - mmengine - INFO - Iter(train) [14100/20000]  lr: 6.7952e-03  eta: 1:37:10  time: 0.9905  data_time: 0.0148  memory: 7747  loss: 0.2805  decode.loss_ce: 0.1404  decode.acc_seg: 98.3314  aux.loss_ce: 0.1401  aux.acc_seg: 82.9684
+2024/04/11 00:47:56 - mmengine - INFO - Iter(train) [14200/20000]  lr: 6.7719e-03  eta: 1:35:32  time: 0.9867  data_time: 0.0136  memory: 7746  loss: 0.2464  decode.loss_ce: 0.1314  decode.acc_seg: 92.5857  aux.loss_ce: 0.1150  aux.acc_seg: 85.1038
+2024/04/11 00:49:35 - mmengine - INFO - Iter(train) [14300/20000]  lr: 6.7486e-03  eta: 1:33:53  time: 0.9913  data_time: 0.0132  memory: 7746  loss: 0.3613  decode.loss_ce: 0.2304  decode.acc_seg: 93.9004  aux.loss_ce: 0.1310  aux.acc_seg: 92.5243
+2024/04/11 00:51:14 - mmengine - INFO - Iter(train) [14400/20000]  lr: 6.7253e-03  eta: 1:32:14  time: 0.9887  data_time: 0.0142  memory: 7746  loss: 0.2993  decode.loss_ce: 0.1854  decode.acc_seg: 88.7772  aux.loss_ce: 0.1139  aux.acc_seg: 90.7799
+2024/04/11 00:52:53 - mmengine - INFO - Iter(train) [14500/20000]  lr: 6.7020e-03  eta: 1:30:35  time: 0.9889  data_time: 0.0145  memory: 7746  loss: 0.3367  decode.loss_ce: 0.1931  decode.acc_seg: 76.5704  aux.loss_ce: 0.1436  aux.acc_seg: 53.5765
+2024/04/11 00:52:55 - mmengine - INFO - per class results:
+2024/04/11 00:52:55 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background |  90.4 |  95.2 | 94.96 | 94.96  |   94.72   |  95.2  |
+| monolayer  | 74.63 | 85.34 | 85.47 | 85.47  |    85.6   | 85.34  |
+|  bilayer   | 57.56 | 63.03 | 73.07 | 73.07  |   86.91   | 63.03  |
+| multilayer |  77.8 | 93.53 | 87.52 | 87.52  |   82.23   | 93.53  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 00:52:55 - mmengine - INFO - Iter(val) [8/8]    aAcc: 90.7700  mIoU: 75.1000  mAcc: 84.2700  mDice: 85.2500  mFscore: 85.2500  mPrecision: 87.3600  mRecall: 84.2700  data_time: 0.0121  time: 0.2123
+2024/04/11 00:54:34 - mmengine - INFO - Iter(train) [14600/20000]  lr: 6.6787e-03  eta: 1:28:57  time: 0.9912  data_time: 0.0146  memory: 7746  loss: 0.2611  decode.loss_ce: 0.1480  decode.acc_seg: 94.7274  aux.loss_ce: 0.1131  aux.acc_seg: 88.3029
+2024/04/11 00:56:13 - mmengine - INFO - Iter(train) [14700/20000]  lr: 6.6554e-03  eta: 1:27:18  time: 0.9906  data_time: 0.0132  memory: 7746  loss: 0.2521  decode.loss_ce: 0.1384  decode.acc_seg: 94.9287  aux.loss_ce: 0.1137  aux.acc_seg: 93.7531
+2024/04/11 00:57:52 - mmengine - INFO - Iter(train) [14800/20000]  lr: 6.6321e-03  eta: 1:25:39  time: 0.9886  data_time: 0.0139  memory: 7746  loss: 0.2605  decode.loss_ce: 0.1377  decode.acc_seg: 96.8124  aux.loss_ce: 0.1228  aux.acc_seg: 95.0816
+2024/04/11 00:59:31 - mmengine - INFO - Iter(train) [14900/20000]  lr: 6.6087e-03  eta: 1:24:00  time: 0.9855  data_time: 0.0117  memory: 7746  loss: 0.2248  decode.loss_ce: 0.1203  decode.acc_seg: 96.0809  aux.loss_ce: 0.1045  aux.acc_seg: 93.3950
+2024/04/11 01:01:10 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 01:01:10 - mmengine - INFO - Iter(train) [15000/20000]  lr: 6.5854e-03  eta: 1:22:21  time: 0.9910  data_time: 0.0146  memory: 7746  loss: 0.3387  decode.loss_ce: 0.2077  decode.acc_seg: 70.0412  aux.loss_ce: 0.1309  aux.acc_seg: 78.5365
+2024/04/11 01:01:10 - mmengine - INFO - Saving checkpoint at 15000 iterations
+2024/04/11 01:01:13 - mmengine - INFO - per class results:
+2024/04/11 01:01:13 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 92.57 | 96.89 | 96.14 | 96.14  |    95.4   | 96.89  |
+| monolayer  | 72.71 | 81.77 |  84.2 |  84.2  |   86.78   | 81.77  |
+|  bilayer   | 49.73 | 74.17 | 66.43 | 66.43  |   60.15   | 74.17  |
+| multilayer | 86.57 | 89.67 |  92.8 |  92.8  |   96.16   | 89.67  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 01:01:13 - mmengine - INFO - Iter(val) [8/8]    aAcc: 91.0600  mIoU: 75.4000  mAcc: 85.6300  mDice: 84.8900  mFscore: 84.8900  mPrecision: 84.6200  mRecall: 85.6300  data_time: 0.0118  time: 0.2106
+2024/04/11 01:02:52 - mmengine - INFO - Iter(train) [15100/20000]  lr: 6.5621e-03  eta: 1:20:43  time: 0.9918  data_time: 0.0148  memory: 7746  loss: 0.2764  decode.loss_ce: 0.1565  decode.acc_seg: 86.0626  aux.loss_ce: 0.1199  aux.acc_seg: 77.1732
+2024/04/11 01:04:31 - mmengine - INFO - Iter(train) [15200/20000]  lr: 6.5387e-03  eta: 1:19:04  time: 0.9893  data_time: 0.0138  memory: 7746  loss: 0.2402  decode.loss_ce: 0.1337  decode.acc_seg: 95.0862  aux.loss_ce: 0.1065  aux.acc_seg: 93.8171
+2024/04/11 01:06:09 - mmengine - INFO - Iter(train) [15300/20000]  lr: 6.5153e-03  eta: 1:17:25  time: 0.9856  data_time: 0.0138  memory: 7746  loss: 0.2053  decode.loss_ce: 0.1082  decode.acc_seg: 97.2622  aux.loss_ce: 0.0970  aux.acc_seg: 87.4153
+2024/04/11 01:07:48 - mmengine - INFO - Iter(train) [15400/20000]  lr: 6.4919e-03  eta: 1:15:46  time: 0.9884  data_time: 0.0132  memory: 7746  loss: 0.4180  decode.loss_ce: 0.2690  decode.acc_seg: 97.3231  aux.loss_ce: 0.1490  aux.acc_seg: 94.5562
+2024/04/11 01:09:27 - mmengine - INFO - Iter(train) [15500/20000]  lr: 6.4685e-03  eta: 1:14:07  time: 0.9850  data_time: 0.0143  memory: 7746  loss: 0.2615  decode.loss_ce: 0.1466  decode.acc_seg: 93.0781  aux.loss_ce: 0.1148  aux.acc_seg: 80.5397
+2024/04/11 01:09:29 - mmengine - INFO - per class results:
+2024/04/11 01:09:29 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 90.78 | 94.57 | 95.16 | 95.16  |   95.76   | 94.57  |
+| monolayer  | 73.71 | 80.83 | 84.86 | 84.86  |   89.31   | 80.83  |
+|  bilayer   | 36.31 | 37.72 | 53.28 | 53.28  |   90.65   | 37.72  |
+| multilayer | 54.25 | 95.87 | 70.34 | 70.34  |   55.54   | 95.87  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 01:09:29 - mmengine - INFO - Iter(val) [8/8]    aAcc: 88.1000  mIoU: 63.7600  mAcc: 77.2500  mDice: 75.9100  mFscore: 75.9100  mPrecision: 82.8200  mRecall: 77.2500  data_time: 0.0161  time: 0.2192
+2024/04/11 01:11:08 - mmengine - INFO - Iter(train) [15600/20000]  lr: 6.4451e-03  eta: 1:12:29  time: 0.9919  data_time: 0.0152  memory: 7746  loss: 0.2914  decode.loss_ce: 0.1693  decode.acc_seg: 97.3568  aux.loss_ce: 0.1221  aux.acc_seg: 85.2508
+2024/04/11 01:12:47 - mmengine - INFO - Iter(train) [15700/20000]  lr: 6.4217e-03  eta: 1:10:50  time: 0.9896  data_time: 0.0141  memory: 7746  loss: 0.2975  decode.loss_ce: 0.1665  decode.acc_seg: 93.8928  aux.loss_ce: 0.1310  aux.acc_seg: 90.2407
+2024/04/11 01:14:26 - mmengine - INFO - Iter(train) [15800/20000]  lr: 6.3983e-03  eta: 1:09:11  time: 0.9898  data_time: 0.0139  memory: 7746  loss: 0.2802  decode.loss_ce: 0.1583  decode.acc_seg: 94.7283  aux.loss_ce: 0.1218  aux.acc_seg: 89.0994
+2024/04/11 01:16:05 - mmengine - INFO - Iter(train) [15900/20000]  lr: 6.3749e-03  eta: 1:07:32  time: 0.9886  data_time: 0.0120  memory: 7746  loss: 0.3909  decode.loss_ce: 0.2064  decode.acc_seg: 92.6522  aux.loss_ce: 0.1845  aux.acc_seg: 67.6595
+2024/04/11 01:17:44 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 01:17:44 - mmengine - INFO - Iter(train) [16000/20000]  lr: 6.3515e-03  eta: 1:05:53  time: 0.9882  data_time: 0.0144  memory: 7746  loss: 0.1928  decode.loss_ce: 0.1091  decode.acc_seg: 97.2541  aux.loss_ce: 0.0837  aux.acc_seg: 95.9623
+2024/04/11 01:17:45 - mmengine - INFO - per class results:
+2024/04/11 01:17:45 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 90.59 | 93.53 | 95.06 | 95.06  |   96.65   | 93.53  |
+| monolayer  | 72.46 | 84.28 | 84.03 | 84.03  |   83.78   | 84.28  |
+|  bilayer   | 49.11 | 53.85 | 65.87 | 65.87  |    84.8   | 53.85  |
+| multilayer | 61.43 | 92.11 |  76.1 |  76.1  |   64.84   | 92.11  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 01:17:45 - mmengine - INFO - Iter(val) [8/8]    aAcc: 88.9000  mIoU: 68.4000  mAcc: 80.9400  mDice: 80.2700  mFscore: 80.2700  mPrecision: 82.5200  mRecall: 80.9400  data_time: 0.0150  time: 0.2178
+2024/04/11 01:19:24 - mmengine - INFO - Iter(train) [16100/20000]  lr: 6.3280e-03  eta: 1:04:14  time: 0.9877  data_time: 0.0141  memory: 7746  loss: 0.3677  decode.loss_ce: 0.1985  decode.acc_seg: 95.1723  aux.loss_ce: 0.1692  aux.acc_seg: 77.2062
+2024/04/11 01:21:03 - mmengine - INFO - Iter(train) [16200/20000]  lr: 6.3045e-03  eta: 1:02:36  time: 0.9851  data_time: 0.0140  memory: 7746  loss: 0.3160  decode.loss_ce: 0.1845  decode.acc_seg: 75.6315  aux.loss_ce: 0.1315  aux.acc_seg: 73.8593
+2024/04/11 01:22:42 - mmengine - INFO - Iter(train) [16300/20000]  lr: 6.2811e-03  eta: 1:00:57  time: 0.9946  data_time: 0.0147  memory: 7746  loss: 0.2748  decode.loss_ce: 0.1582  decode.acc_seg: 96.9259  aux.loss_ce: 0.1166  aux.acc_seg: 87.8815
+2024/04/11 01:24:21 - mmengine - INFO - Iter(train) [16400/20000]  lr: 6.2576e-03  eta: 0:59:18  time: 0.9900  data_time: 0.0144  memory: 7746  loss: 0.2124  decode.loss_ce: 0.1100  decode.acc_seg: 98.1580  aux.loss_ce: 0.1024  aux.acc_seg: 94.0774
+2024/04/11 01:26:00 - mmengine - INFO - Iter(train) [16500/20000]  lr: 6.2341e-03  eta: 0:57:39  time: 0.9908  data_time: 0.0141  memory: 7746  loss: 0.2509  decode.loss_ce: 0.1353  decode.acc_seg: 97.6063  aux.loss_ce: 0.1155  aux.acc_seg: 97.2501
+2024/04/11 01:26:02 - mmengine - INFO - per class results:
+2024/04/11 01:26:02 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 90.54 | 94.67 | 95.04 | 95.04  |    95.4   | 94.67  |
+| monolayer  | 74.82 | 80.35 |  85.6 |  85.6  |   91.58   | 80.35  |
+|  bilayer   | 56.98 | 85.38 | 72.59 | 72.59  |   63.14   | 85.38  |
+| multilayer | 64.66 |  87.3 | 78.53 | 78.53  |   71.37   |  87.3  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 01:26:02 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.7300  mIoU: 71.7500  mAcc: 86.9300  mDice: 82.9400  mFscore: 82.9400  mPrecision: 80.3700  mRecall: 86.9300  data_time: 0.0160  time: 0.2162
+2024/04/11 01:27:41 - mmengine - INFO - Iter(train) [16600/20000]  lr: 6.2106e-03  eta: 0:56:00  time: 0.9893  data_time: 0.0142  memory: 7746  loss: 0.2785  decode.loss_ce: 0.1582  decode.acc_seg: 96.4192  aux.loss_ce: 0.1203  aux.acc_seg: 95.3400
+2024/04/11 01:29:20 - mmengine - INFO - Iter(train) [16700/20000]  lr: 6.1871e-03  eta: 0:54:22  time: 0.9859  data_time: 0.0138  memory: 7746  loss: 0.3332  decode.loss_ce: 0.2082  decode.acc_seg: 94.1179  aux.loss_ce: 0.1250  aux.acc_seg: 92.2799
+2024/04/11 01:30:59 - mmengine - INFO - Iter(train) [16800/20000]  lr: 6.1636e-03  eta: 0:52:43  time: 0.9855  data_time: 0.0139  memory: 7746  loss: 0.3334  decode.loss_ce: 0.2112  decode.acc_seg: 93.5003  aux.loss_ce: 0.1222  aux.acc_seg: 94.3162
+2024/04/11 01:32:38 - mmengine - INFO - Iter(train) [16900/20000]  lr: 6.1401e-03  eta: 0:51:04  time: 0.9864  data_time: 0.0141  memory: 7746  loss: 0.3476  decode.loss_ce: 0.1998  decode.acc_seg: 98.1857  aux.loss_ce: 0.1478  aux.acc_seg: 90.5690
+2024/04/11 01:34:16 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 01:34:16 - mmengine - INFO - Iter(train) [17000/20000]  lr: 6.1165e-03  eta: 0:49:25  time: 0.9873  data_time: 0.0133  memory: 7746  loss: 0.2448  decode.loss_ce: 0.1332  decode.acc_seg: 96.0748  aux.loss_ce: 0.1115  aux.acc_seg: 94.3528
+2024/04/11 01:34:18 - mmengine - INFO - per class results:
+2024/04/11 01:34:18 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 89.57 | 94.76 |  94.5 |  94.5  |   94.24   | 94.76  |
+| monolayer  | 72.32 | 76.67 | 83.93 | 83.93  |   92.72   | 76.67  |
+|  bilayer   | 42.05 | 84.26 |  59.2 |  59.2  |   45.63   | 84.26  |
+| multilayer | 87.64 | 93.21 | 93.41 | 93.41  |   93.62   | 93.21  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 01:34:18 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.2500  mIoU: 72.8900  mAcc: 87.2300  mDice: 82.7600  mFscore: 82.7600  mPrecision: 81.5500  mRecall: 87.2300  data_time: 0.0156  time: 0.2191
+2024/04/11 01:35:57 - mmengine - INFO - Iter(train) [17100/20000]  lr: 6.0930e-03  eta: 0:47:46  time: 0.9913  data_time: 0.0139  memory: 7746  loss: 0.1996  decode.loss_ce: 0.1101  decode.acc_seg: 92.9428  aux.loss_ce: 0.0896  aux.acc_seg: 91.4710
+2024/04/11 01:37:36 - mmengine - INFO - Iter(train) [17200/20000]  lr: 6.0694e-03  eta: 0:46:07  time: 0.9912  data_time: 0.0152  memory: 7746  loss: 0.2566  decode.loss_ce: 0.1421  decode.acc_seg: 94.8776  aux.loss_ce: 0.1145  aux.acc_seg: 89.7408
+2024/04/11 01:39:15 - mmengine - INFO - Iter(train) [17300/20000]  lr: 6.0459e-03  eta: 0:44:28  time: 0.9873  data_time: 0.0137  memory: 7746  loss: 0.2196  decode.loss_ce: 0.1129  decode.acc_seg: 94.1456  aux.loss_ce: 0.1067  aux.acc_seg: 94.5261
+2024/04/11 01:40:53 - mmengine - INFO - Iter(train) [17400/20000]  lr: 6.0223e-03  eta: 0:42:50  time: 0.9851  data_time: 0.0116  memory: 7746  loss: 0.3067  decode.loss_ce: 0.1708  decode.acc_seg: 96.4016  aux.loss_ce: 0.1359  aux.acc_seg: 95.2435
+2024/04/11 01:42:32 - mmengine - INFO - Iter(train) [17500/20000]  lr: 5.9987e-03  eta: 0:41:11  time: 0.9868  data_time: 0.0150  memory: 7746  loss: 0.2292  decode.loss_ce: 0.1243  decode.acc_seg: 98.5856  aux.loss_ce: 0.1049  aux.acc_seg: 89.7265
+2024/04/11 01:42:32 - mmengine - INFO - Saving checkpoint at 17500 iterations
+2024/04/11 01:42:35 - mmengine - INFO - per class results:
+2024/04/11 01:42:35 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 91.55 | 94.14 | 95.59 | 95.59  |   97.09   | 94.14  |
+| monolayer  | 77.85 | 84.44 | 87.54 | 87.54  |   90.89   | 84.44  |
+|  bilayer   |  40.5 |  83.5 | 57.65 | 57.65  |   44.02   |  83.5  |
+| multilayer | 85.63 | 87.49 | 92.26 | 92.26  |   97.57   | 87.49  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 01:42:35 - mmengine - INFO - Iter(val) [8/8]    aAcc: 90.4200  mIoU: 73.8800  mAcc: 87.3900  mDice: 83.2600  mFscore: 83.2600  mPrecision: 82.3900  mRecall: 87.3900  data_time: 0.0107  time: 0.2105
+2024/04/11 01:44:14 - mmengine - INFO - Iter(train) [17600/20000]  lr: 5.9751e-03  eta: 0:39:32  time: 0.9900  data_time: 0.0126  memory: 7746  loss: 0.1885  decode.loss_ce: 0.0912  decode.acc_seg: 98.6417  aux.loss_ce: 0.0973  aux.acc_seg: 96.9033
+2024/04/11 01:45:53 - mmengine - INFO - Iter(train) [17700/20000]  lr: 5.9515e-03  eta: 0:37:53  time: 0.9907  data_time: 0.0147  memory: 7746  loss: 0.2902  decode.loss_ce: 0.1498  decode.acc_seg: 93.3026  aux.loss_ce: 0.1404  aux.acc_seg: 92.7545
+2024/04/11 01:47:31 - mmengine - INFO - Iter(train) [17800/20000]  lr: 5.9279e-03  eta: 0:36:14  time: 0.9912  data_time: 0.0136  memory: 7746  loss: 0.1874  decode.loss_ce: 0.0980  decode.acc_seg: 96.4615  aux.loss_ce: 0.0894  aux.acc_seg: 95.1276
+2024/04/11 01:49:10 - mmengine - INFO - Iter(train) [17900/20000]  lr: 5.9042e-03  eta: 0:34:35  time: 0.9865  data_time: 0.0153  memory: 7746  loss: 0.1897  decode.loss_ce: 0.1150  decode.acc_seg: 95.9744  aux.loss_ce: 0.0747  aux.acc_seg: 93.5408
+2024/04/11 01:50:49 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 01:50:49 - mmengine - INFO - Iter(train) [18000/20000]  lr: 5.8806e-03  eta: 0:32:56  time: 0.9860  data_time: 0.0131  memory: 7746  loss: 0.2753  decode.loss_ce: 0.1483  decode.acc_seg: 87.6939  aux.loss_ce: 0.1270  aux.acc_seg: 84.1899
+2024/04/11 01:50:51 - mmengine - INFO - per class results:
+2024/04/11 01:50:51 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 93.63 | 95.34 | 96.71 | 96.71  |   98.12   | 95.34  |
+| monolayer  | 79.91 | 85.32 | 88.83 | 88.83  |   92.64   | 85.32  |
+|  bilayer   | 44.55 | 84.82 | 61.64 | 61.64  |   48.41   | 84.82  |
+| multilayer |  85.4 | 91.83 | 92.12 | 92.12  |   92.42   | 91.83  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 01:50:51 - mmengine - INFO - Iter(val) [8/8]    aAcc: 91.8200  mIoU: 75.8700  mAcc: 89.3300  mDice: 84.8200  mFscore: 84.8200  mPrecision: 82.9000  mRecall: 89.3300  data_time: 0.0172  time: 0.2172
+2024/04/11 01:52:30 - mmengine - INFO - Iter(train) [18100/20000]  lr: 5.8569e-03  eta: 0:31:18  time: 0.9840  data_time: 0.0129  memory: 7746  loss: 0.3822  decode.loss_ce: 0.2647  decode.acc_seg: 95.9532  aux.loss_ce: 0.1175  aux.acc_seg: 93.3793
+2024/04/11 01:54:08 - mmengine - INFO - Iter(train) [18200/20000]  lr: 5.8333e-03  eta: 0:29:39  time: 0.9845  data_time: 0.0126  memory: 7746  loss: 0.2410  decode.loss_ce: 0.1270  decode.acc_seg: 85.4395  aux.loss_ce: 0.1140  aux.acc_seg: 72.8999
+2024/04/11 01:55:47 - mmengine - INFO - Iter(train) [18300/20000]  lr: 5.8096e-03  eta: 0:28:00  time: 0.9872  data_time: 0.0141  memory: 7746  loss: 0.2525  decode.loss_ce: 0.1596  decode.acc_seg: 82.9893  aux.loss_ce: 0.0929  aux.acc_seg: 80.5149
+2024/04/11 01:57:26 - mmengine - INFO - Iter(train) [18400/20000]  lr: 5.7859e-03  eta: 0:26:21  time: 0.9824  data_time: 0.0132  memory: 7746  loss: 0.2456  decode.loss_ce: 0.1357  decode.acc_seg: 94.9266  aux.loss_ce: 0.1098  aux.acc_seg: 89.8462
+2024/04/11 01:59:05 - mmengine - INFO - Iter(train) [18500/20000]  lr: 5.7622e-03  eta: 0:24:42  time: 0.9860  data_time: 0.0132  memory: 7746  loss: 0.2254  decode.loss_ce: 0.1286  decode.acc_seg: 97.4761  aux.loss_ce: 0.0968  aux.acc_seg: 96.8920
+2024/04/11 01:59:07 - mmengine - INFO - per class results:
+2024/04/11 01:59:07 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 92.23 | 93.63 | 95.96 | 95.96  |   98.41   | 93.63  |
+| monolayer  | 79.84 | 86.78 | 88.79 | 88.79  |    90.9   | 86.78  |
+|  bilayer   | 51.96 | 55.08 | 68.38 | 68.38  |   90.15   | 55.08  |
+| multilayer | 53.77 | 94.62 | 69.93 | 69.93  |   55.46   | 94.62  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 01:59:07 - mmengine - INFO - Iter(val) [8/8]    aAcc: 89.9000  mIoU: 69.4500  mAcc: 82.5300  mDice: 80.7700  mFscore: 80.7700  mPrecision: 83.7300  mRecall: 82.5300  data_time: 0.0145  time: 0.2145
+2024/04/11 02:00:46 - mmengine - INFO - Iter(train) [18600/20000]  lr: 5.7385e-03  eta: 0:23:03  time: 0.9922  data_time: 0.0138  memory: 7746  loss: 0.3119  decode.loss_ce: 0.1852  decode.acc_seg: 96.3344  aux.loss_ce: 0.1267  aux.acc_seg: 96.1699
+2024/04/11 02:02:25 - mmengine - INFO - Iter(train) [18700/20000]  lr: 5.7148e-03  eta: 0:21:25  time: 0.9864  data_time: 0.0125  memory: 7746  loss: 0.2466  decode.loss_ce: 0.1489  decode.acc_seg: 90.7375  aux.loss_ce: 0.0977  aux.acc_seg: 78.8499
+2024/04/11 02:04:03 - mmengine - INFO - Iter(train) [18800/20000]  lr: 5.6910e-03  eta: 0:19:46  time: 0.9886  data_time: 0.0133  memory: 7746  loss: 0.2276  decode.loss_ce: 0.1305  decode.acc_seg: 82.6005  aux.loss_ce: 0.0971  aux.acc_seg: 79.4057
+2024/04/11 02:05:42 - mmengine - INFO - Iter(train) [18900/20000]  lr: 5.6673e-03  eta: 0:18:07  time: 0.9866  data_time: 0.0134  memory: 7746  loss: 0.2690  decode.loss_ce: 0.1583  decode.acc_seg: 98.6774  aux.loss_ce: 0.1108  aux.acc_seg: 97.4198
+2024/04/11 02:07:21 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 02:07:21 - mmengine - INFO - Iter(train) [19000/20000]  lr: 5.6436e-03  eta: 0:16:28  time: 0.9859  data_time: 0.0123  memory: 7746  loss: 0.2441  decode.loss_ce: 0.1457  decode.acc_seg: 96.4654  aux.loss_ce: 0.0984  aux.acc_seg: 91.6846
+2024/04/11 02:07:23 - mmengine - INFO - per class results:
+2024/04/11 02:07:23 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background |  93.0 | 94.71 | 96.37 | 96.37  |   98.09   | 94.71  |
+| monolayer  | 77.06 | 86.08 | 87.05 | 87.05  |   88.04   | 86.08  |
+|  bilayer   | 35.23 | 66.79 |  52.1 |  52.1  |   42.71   | 66.79  |
+| multilayer | 87.29 | 91.89 | 93.21 | 93.21  |   94.57   | 91.89  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 02:07:23 - mmengine - INFO - Iter(val) [8/8]    aAcc: 90.7300  mIoU: 73.1400  mAcc: 84.8700  mDice: 82.1800  mFscore: 82.1800  mPrecision: 80.8500  mRecall: 84.8700  data_time: 0.0155  time: 0.2164
+2024/04/11 02:09:02 - mmengine - INFO - Iter(train) [19100/20000]  lr: 5.6198e-03  eta: 0:14:49  time: 0.9876  data_time: 0.0140  memory: 7746  loss: 0.2501  decode.loss_ce: 0.1288  decode.acc_seg: 93.9812  aux.loss_ce: 0.1213  aux.acc_seg: 86.4018
+2024/04/11 02:10:40 - mmengine - INFO - Iter(train) [19200/20000]  lr: 5.5960e-03  eta: 0:13:10  time: 0.9863  data_time: 0.0139  memory: 7746  loss: 0.3019  decode.loss_ce: 0.1794  decode.acc_seg: 86.8523  aux.loss_ce: 0.1226  aux.acc_seg: 85.0869
+2024/04/11 02:12:19 - mmengine - INFO - Iter(train) [19300/20000]  lr: 5.5722e-03  eta: 0:11:31  time: 0.9887  data_time: 0.0134  memory: 7746  loss: 0.2906  decode.loss_ce: 0.1292  decode.acc_seg: 96.3538  aux.loss_ce: 0.1614  aux.acc_seg: 94.5056
+2024/04/11 02:13:58 - mmengine - INFO - Iter(train) [19400/20000]  lr: 5.5484e-03  eta: 0:09:53  time: 0.9875  data_time: 0.0132  memory: 7746  loss: 0.2150  decode.loss_ce: 0.1052  decode.acc_seg: 96.7113  aux.loss_ce: 0.1098  aux.acc_seg: 95.1460
+2024/04/11 02:15:37 - mmengine - INFO - Iter(train) [19500/20000]  lr: 5.5246e-03  eta: 0:08:14  time: 0.9879  data_time: 0.0143  memory: 7746  loss: 0.3333  decode.loss_ce: 0.1854  decode.acc_seg: 88.7267  aux.loss_ce: 0.1479  aux.acc_seg: 82.1210
+2024/04/11 02:15:38 - mmengine - INFO - per class results:
+2024/04/11 02:15:38 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 93.28 | 97.38 | 96.52 | 96.52  |   95.68   | 97.38  |
+| monolayer  | 75.88 | 83.07 | 86.28 | 86.28  |   89.75   | 83.07  |
+|  bilayer   | 59.71 |  84.2 | 74.77 | 74.77  |   67.24   |  84.2  |
+| multilayer | 87.61 | 91.47 |  93.4 |  93.4  |   95.41   | 91.47  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 02:15:38 - mmengine - INFO - Iter(val) [8/8]    aAcc: 92.3700  mIoU: 79.1200  mAcc: 89.0300  mDice: 87.7400  mFscore: 87.7400  mPrecision: 87.0200  mRecall: 89.0300  data_time: 0.0154  time: 0.2152
+2024/04/11 02:15:38 - mmengine - INFO - The previous best checkpoint /home/zhouruiliang/code/mmsegmentation-main/work_head_dirs/fastvit-upernet-ful/best_mIoU_iter_9500.pth is removed
+2024/04/11 02:15:39 - mmengine - INFO - The best checkpoint with 79.1200 mIoU at 19500 iter is saved to best_mIoU_iter_19500.pth.
+2024/04/11 02:17:19 - mmengine - INFO - Iter(train) [19600/20000]  lr: 5.5008e-03  eta: 0:06:35  time: 0.9845  data_time: 0.0136  memory: 7746  loss: 0.2500  decode.loss_ce: 0.1448  decode.acc_seg: 95.6250  aux.loss_ce: 0.1052  aux.acc_seg: 81.4407
+2024/04/11 02:18:58 - mmengine - INFO - Iter(train) [19700/20000]  lr: 5.4770e-03  eta: 0:04:56  time: 0.9861  data_time: 0.0131  memory: 7746  loss: 0.2261  decode.loss_ce: 0.1283  decode.acc_seg: 95.8804  aux.loss_ce: 0.0979  aux.acc_seg: 87.0948
+2024/04/11 02:20:36 - mmengine - INFO - Iter(train) [19800/20000]  lr: 5.4531e-03  eta: 0:03:17  time: 0.9901  data_time: 0.0144  memory: 7746  loss: 0.2208  decode.loss_ce: 0.1207  decode.acc_seg: 95.2691  aux.loss_ce: 0.1001  aux.acc_seg: 94.4688
+2024/04/11 02:22:15 - mmengine - INFO - Iter(train) [19900/20000]  lr: 5.4293e-03  eta: 0:01:38  time: 0.9867  data_time: 0.0132  memory: 7746  loss: 0.1870  decode.loss_ce: 0.1095  decode.acc_seg: 97.2443  aux.loss_ce: 0.0775  aux.acc_seg: 94.1477
+2024/04/11 02:23:54 - mmengine - INFO - Exp name: fastvit-upernet-ful_20240410_205247
+2024/04/11 02:23:54 - mmengine - INFO - Iter(train) [20000/20000]  lr: 5.4054e-03  eta: 0:00:00  time: 0.9886  data_time: 0.0139  memory: 7746  loss: 0.2678  decode.loss_ce: 0.1307  decode.acc_seg: 97.0225  aux.loss_ce: 0.1371  aux.acc_seg: 94.4692
+2024/04/11 02:23:54 - mmengine - INFO - Saving checkpoint at 20000 iterations
+2024/04/11 02:23:57 - mmengine - INFO - per class results:
+2024/04/11 02:23:57 - mmengine - INFO - 
++------------+-------+-------+-------+--------+-----------+--------+
+|   Class    |  IoU  |  Acc  |  Dice | Fscore | Precision | Recall |
++------------+-------+-------+-------+--------+-----------+--------+
+| Background | 91.16 | 94.62 | 95.38 | 95.38  |   96.15   | 94.62  |
+| monolayer  | 73.37 | 82.81 | 84.64 | 84.64  |   86.55   | 82.81  |
+|  bilayer   | 52.12 |  82.4 | 68.52 | 68.52  |   58.65   |  82.4  |
+| multilayer | 79.29 | 88.59 | 88.45 | 88.45  |   88.32   | 88.59  |
++------------+-------+-------+-------+--------+-----------+--------+
+2024/04/11 02:23:57 - mmengine - INFO - Iter(val) [8/8]    aAcc: 90.3100  mIoU: 73.9900  mAcc: 87.1000  mDice: 84.2500  mFscore: 84.2500  mPrecision: 82.4200  mRecall: 87.1000  data_time: 0.0118  time: 0.2144
